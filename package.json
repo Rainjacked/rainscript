@@ -1,0 +1,29 @@
+{
+  "name": "rainscript",
+  "version": "0.0.1",
+  "description": "A scripting language designed for game story writers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rainjacked/rainscript.git"
+  },
+  "keywords": [
+    "game",
+    "story",
+    "script",
+    "transpiler",
+    "compiler",
+    "json",
+    "visual",
+    "novel"
+  ],
+  "author": "Rainjacked",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rainjacked/rainscript/issues"
+  },
+  "homepage": "https://github.com/Rainjacked/rainscript#readme"
+}
