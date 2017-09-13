@@ -1,0 +1,45 @@
+{
+  "name": "rainscript",
+  "version": "0.0.1",
+  "description": "A scripting language designed for game story writers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint index.js lib/** tests/** && mocha tests",
+    "fix": "eslint index.js lib/** tests/** --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rainjacked/rainscript.git"
+  },
+  "keywords": [
+    "game",
+    "story",
+    "script",
+    "transpiler",
+    "compiler",
+    "json",
+    "visual",
+    "novel"
+  ],
+  "author": "Rainjacked",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rainjacked/rainscript/issues"
+  },
+  "homepage": "https://github.com/Rainjacked/rainscript#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.6.1",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.3.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^3.5.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
