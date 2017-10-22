@@ -9,6 +9,7 @@ REFLECT reflect
 // redirects
 OUT 0 null
 BACK OUT null
+REFLECT 0 null
 
 // compound keywords
 0 COMPOUND0 KEYWORD
@@ -19,7 +20,8 @@ COMPOUND0 COMPOUND any
 
 // split only on keywords
 COMPOUND1 COMPOUND0 KEYWORD
-COMPOUND1 COMPOUND any
+COMPOUND1 COMPOUND OP_SUB
+COMPOUND1 ERROR any
 COMPOUND BACK null
 
 // reflect everything else

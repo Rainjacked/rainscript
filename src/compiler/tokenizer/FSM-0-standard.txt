@@ -3,11 +3,13 @@
 // configure callbacks
 OUT  out
 BACK back
-ERROR  err
+IGNORE ignore
+ERROR err
 
 // redirects
 OUT  0 null
 BACK OUT null
+IGNORE 0 null
 
 // double-quoted string literal
 0        QSTR1            "\""
@@ -71,7 +73,7 @@ COMMENT_INLINE0 COMMENT_INLINE0 any
 COMMENT_INLINE COMMENT null
 
 // comment
-COMMENT OUT null
+COMMENT IGNORE null
 
 // division
 SLASH0 OP_DIV any
@@ -162,9 +164,12 @@ SEMICOLON OUT null
 0 BACKTICK "`"
 BACKTICK OUT null
 
-// period symbol
-0 PERIOD "."
-PERIOD OUT null
+// period and two periods
+0 PERIOD0 "."
+PERIOD0 PPERIOD "."
+PERIOD0 PERIOD any
+PPERIOD OUT null
+PERIOD BACK null
 
 // comma symbol
 0 COMMA ","
@@ -203,17 +208,22 @@ LBRACE OUT null
 RBRACE OUT null
 
 // left bracket symbol
-0 LBRACKET "["
-LBRACKET OUT null
+0 LBRACKET0 "["
+LBRACKET0 LLBRACKET "["
+LBRACKET0 LBRACKET any
+LBRACKET BACK null
+LLBRACKET OUT null
 
 // right bracket symbol
-0 RBRACKET "]"
-RBRACKET OUT null
+0 RBRACKET0 "]"
+RBRACKET0 RRBRACKET "]"
+RBRACKET0 RBRACKET any
+RBRACKET BACK null
+RRBRACKET OUT null
 
 // arbitrary whitespace
-0 WHITESPACE0 " \t"
-WHITESPACE0 WHITESPACE0 " \t"
-WHITESPACE BACK any
+0 WHITESPACE " \t\0"
+WHITESPACE IGNORE null
 
 // keywords
 0 KEYWORD0 "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
