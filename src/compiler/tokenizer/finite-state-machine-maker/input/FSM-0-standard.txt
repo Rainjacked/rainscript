@@ -1,4 +1,4 @@
-// Tokenizes literals, keywords, comments, and standard operations
+// Tokenizes literals, keywords, and standard operations
 
 // configure callbacks
 OUT  out
@@ -65,24 +65,8 @@ OP_SUB OUT null
 OP_MUL OUT null
 
 // division operator and comments
-0 SLASH0 "/"
-
-// comment block
-SLASH0 COMMENT_BLOCK0 "*"
-COMMENT_BLOCK0 COMMENT_BLOCK1 "*"
-COMMENT_BLOCK0 COMMENT_BLOCK0 any
-COMMENT_BLOCK1 COMMENT_BLOCK  "/"
-COMMENT_BLOCK1 COMMENT_BLOCK0 any
-COMMENT_BLOCK COMMENT null
-
-// comment inline
-SLASH0 COMMENT_INLINE0 "/"
-COMMENT_INLINE0 COMMENT_INLINE  "\n"
-COMMENT_INLINE0 COMMENT_INLINE0 any
-COMMENT_INLINE COMMENT null
-
-// comment
-COMMENT IGNORE null
+0 OP_DIV "/"
+OP_DIV BACK null
 
 // division
 SLASH0 OP_DIV any
