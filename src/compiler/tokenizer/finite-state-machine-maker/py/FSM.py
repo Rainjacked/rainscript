@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 
-class FSMGraph(object):
+class Graph(object):
 
     def __init__(self, edges, callbacks, states, symbols):
 
@@ -55,6 +55,27 @@ class FSMGraph(object):
             assert state in state_map
             state_id = state_map[state]
             self.callbacks[state_id].append(callback)
+
+    def to_file(self, filename):
+        with file(filename, 'w') as f:
+            n = len(self.states)
+            m = len(self.symbols)
+
+            f.write('%d %d\n' % (n, m))
+            for callback, state in zip(self.callbacks, self.states):
+                f.write('%s %d' % (state, len(callback)))
+                for function in callback:
+                    f.write(' %s' % function)
+                f.write('\n')
+            f.write('%s\n' % '\n'.join(self.states))
+            f.write('%s\n' % '\n'.join(self.symbols))
+            
+            for row in self.matrix:
+                if isinstance(row, list):
+                    f.write('L %s\n' % ' '.join(list(map(str, row))))
+                else:
+                    f.write('N %s\n' % str(row))
+
 
 
 # converts text file to edge list and callbacks
@@ -121,12 +142,11 @@ def parse(filename):
 
     return edges, callbacks
 
-
 def test():
     files = ['FSM-0-standard.txt', 'FSM-1-compound.txt', 'FSM-2-prefixes.txt']
     graphs = []
     for filename in files:
-        edges, callbacks = parse('../FSM/' + filename)
+        edges, callbacks = parse('../input/' + filename)
         states = [u for u, v, w in edges] \
                + [v for u, v, w in edges] \
                + [s for s, c in callbacks]
@@ -140,13 +160,17 @@ def test():
                 symbols.append(w)
                 flat_edges.append((u, v, w))
         try:
-            graphs.append(FSMGraph(edges=flat_edges,
-                               callbacks=callbacks,
-                               states=states,
-                               symbols=symbols))
+            graphs.append(Graph(edges=flat_edges,
+                                callbacks=callbacks,
+                                states=states,
+                                symbols=symbols))
         except Exception as e:
             print('Error in file: ' + filename)
             print(e)
             return None
 
+    for filename, graph in zip(files, graphs):
+        graph.to_file('../output/' + filename)
+
     return graphs
+

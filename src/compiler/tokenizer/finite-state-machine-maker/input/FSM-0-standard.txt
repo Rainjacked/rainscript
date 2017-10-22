@@ -193,7 +193,7 @@ QUESTION OUT null
 POUND OUT null
 
 // backslash symbol
-0 BACKSLASH "\"
+0 BACKSLASH "\\"
 BACKSLASH OUT null
 
 // underscore symbol
