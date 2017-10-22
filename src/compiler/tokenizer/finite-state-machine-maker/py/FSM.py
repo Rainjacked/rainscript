@@ -67,7 +67,7 @@ class Graph(object):
                 for function in callback:
                     f.write(' %s' % function)
                 f.write('\n')
-            f.write('%s\n' % '\n'.join(self.states))
+
             f.write('%s\n' % '\n'.join(self.symbols))
             
             for row in self.matrix:
