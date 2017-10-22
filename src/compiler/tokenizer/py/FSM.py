@@ -1,5 +1,63 @@
 #!/usr/bin/python2
 
+class FSMGraph(object):
+
+    def __init__(self, edges, callbacks, states, symbols):
+
+        state_list = list(set(states))
+        state_ids = range(len(state_list))
+        state_map = {}
+        for i in state_ids:
+            state_map[state_list[i]] = i
+
+        symbol_list = list(set(symbols).difference({'any', 'null'}))
+        symbol_ids = range(len(symbol_list))
+        symbol_map = {}
+        for i in symbol_ids:
+            symbol_map[symbol_list[i]] = i
+
+        matrix = [[None for j in symbol_ids] for i in state_ids]
+
+        for state1, state2, edge_symbol in edges:
+
+            state1_id = state_map[state1]
+            state2_id = state_map[state2]
+
+            if edge_symbol == 'any':
+                assert isinstance(matrix[state1_id], list)
+                matrix[state1_id] = [state2_id if ij is None else ij
+                                     for ij in matrix[state1_id]]
+
+            elif edge_symbol == 'null':
+                matrix[state1_id] = state2_id
+
+            else:
+                symbol_id = symbol_map[edge_symbol]
+                matrix[state1_id][symbol_id] = state2_id
+
+        # make sure matrix[i][j] is never None
+        for i, row in enumerate(matrix):
+            if isinstance(row, list):
+                for j, cell in enumerate(row):
+                    if cell is None:
+                        raise Exception('Not all transitions in the'
+                            + ' finite state machine are filled! '
+                            + '[%s, "%s"]' % (state_list[i], symbol_list[j]))
+
+        self.matrix = matrix
+        self.states = state_list
+        self.symbols = symbol_list
+        self.state_map = state_map
+        self.symbol_map = symbol_map
+        self.callbacks = [[] for i in state_ids]
+
+        for state, callback in callbacks:
+            assert state in state_map
+            state_id = state_map[state]
+            self.callbacks[state_id].append(callback)
+
+
+# converts text file to edge list and callbacks
 def parse(filename):
 
     callbacks = []
@@ -62,3 +120,33 @@ def parse(filename):
                 return
 
     return edges, callbacks
+
+
+def test():
+    files = ['FSM-0-standard.txt', 'FSM-1-compound.txt', 'FSM-2-prefixes.txt']
+    graphs = []
+    for filename in files:
+        edges, callbacks = parse('../FSM/' + filename)
+        states = [u for u, v, w in edges] \
+               + [v for u, v, w in edges] \
+               + [s for s, c in callbacks]
+        symbols = []
+        flat_edges = []
+        for u, v, w in edges:
+            if isinstance(w, list):
+                symbols.extend(w)
+                flat_edges.extend((u, v, ww) for ww in w)
+            else:
+                symbols.append(w)
+                flat_edges.append((u, v, w))
+        try:
+            graphs.append(FSMGraph(edges=flat_edges,
+                               callbacks=callbacks,
+                               states=states,
+                               symbols=symbols))
+        except Exception as e:
+            print('Error in file: ' + filename)
+            print(e)
+            return None
+
+    return graphs

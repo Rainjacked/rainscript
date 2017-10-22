@@ -11,6 +11,10 @@ OUT  0 null
 BACK OUT null
 IGNORE 0 null
 
+// go to error if bad character
+0 ERROR any
+ERROR 0 null
+
 // double-quoted string literal
 0        QSTR1            "\""
 QSTR1    QSTR1esc         "\\"
@@ -21,7 +25,7 @@ QSTR1    STR              "\""
 // single quoted string literal
 0        QSTR2            "'"
 QSTR2    QSTR2esc         "\\"
-QSTR2esc QSTR2            "'"
+QSTR2esc QSTR2            any
 QSTR2    QSTR2            any
 QSTR2    STR              "'"
 
@@ -36,9 +40,13 @@ INT0 INTX "xX"
 
 // integer suffixes
 INT0 INT1 "123456789"
+INT0 INT any
 INTB INT1 "0123456789"
 INTX INT1 "0123456789"
 INT1 INT1 "0123456789"
+INTB ERROR any
+INTX ERROR any
+INT1 ERROR any
 INT1 INT  any
 
 // integer literal
@@ -62,6 +70,7 @@ OP_MUL OUT null
 // comment block
 SLASH0 COMMENT_BLOCK0 "*"
 COMMENT_BLOCK0 COMMENT_BLOCK1 "*"
+COMMENT_BLOCK0 COMMENT_BLOCK0 any
 COMMENT_BLOCK1 COMMENT_BLOCK  "/"
 COMMENT_BLOCK1 COMMENT_BLOCK0 any
 COMMENT_BLOCK COMMENT null
@@ -231,7 +240,3 @@ KEYWORD0 KEYWORD0 "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 KEYWORD0 KEYWORD0 "0123456789"
 KEYWORD0 KEYWORD any
 KEYWORD BACK null
-
-// go to error if bad character
-0 ERROR any
-ERROR 0 null

@@ -9,6 +9,10 @@ REFLECT reflect
 // redirects
 OUT 0 null
 BACK OUT null
+ERROR 0 null
+
+// reflect with the same token by default
+0 REFLECT any
 REFLECT 0 null
 
 // variable prefixes
@@ -29,9 +33,10 @@ VAR BACK null
 
 // statement atomic
 0 EXCLAMATION EXCLAMATION0
-0 AT STATEMENT0
-0 POUND STATEMENT0
+0 STATEMENT0 AT
+0 STATEMENT0 POUND
 STATEMENT0 STATEMENT1 COMPOUND
+STATEMENT0 STATEMENT any
 
 // handle exclamation point prefix
 EXCLAMATION0 STATEMENT1 COMPOUND
@@ -46,6 +51,3 @@ STATEMENT2 STATEMENTb any
 STATEMENTb back
 STATEMENTb STATEMENT null
 STATEMENT BACK null
-
-// reflect everything else
-0 REFLECT any

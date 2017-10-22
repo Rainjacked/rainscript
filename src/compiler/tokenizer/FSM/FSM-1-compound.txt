@@ -9,6 +9,10 @@ REFLECT reflect
 // redirects
 OUT 0 null
 BACK OUT null
+ERROR 0 null
+
+// reflect with the same token by default
+0 REFLECT any
 REFLECT 0 null
 
 // compound keywords
@@ -23,6 +27,3 @@ COMPOUND1 COMPOUND0 KEYWORD
 COMPOUND1 COMPOUND OP_SUB
 COMPOUND1 ERROR any
 COMPOUND BACK null
-
-// reflect everything else
-0 REFLECT any
