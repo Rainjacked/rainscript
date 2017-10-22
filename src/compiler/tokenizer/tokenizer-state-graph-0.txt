@@ -1,0 +1,219 @@
+// Tokenizes literals, keywords, and standard operations
+
+// backtrack
+1 0 back
+
+// double-quoted string literal
+0        QSTR1            "\""
+QSTR1    QSTR1esc         "\\"
+QSTR1esc QSTR1            any
+QSTR1    QSTR1            any
+QSTR1    STR              "\""
+
+// single quoted string literal
+0        QSTR2            "'"
+QSTR2    QSTR2esc         "\\"
+QSTR2esc QSTR2            "'"
+QSTR2    QSTR2            any
+QSTR2    STR              "'"
+
+// string literal
+STR 0 null
+
+// integer prefixes
+0    INT0 "0"
+0    INT1 "123456789"
+INT0 INTB "bB"
+INT0 INTX "xX"
+
+// integer suffixes
+INT0 INT1 "123456789"
+INTB INT1 "0123456789"
+INTX INT1 "0123456789"
+INT1 INT1 "0123456789"
+INT1 INT  any
+
+// integer literal
+INT 1 null
+
+// addition operator
+0 OP_ADD  "+"
+OP_ADD 0 null
+
+// subtraction operator
+0 OP_SUB "-"
+OP_SUB 0 null
+
+// multiplication operator
+0 OP_MUL "*"
+OP_MUL 0 null
+
+// division operator and comments
+0 SLASH0 "/"
+
+// comment block
+SLASH0 COMMENT_BLOCK0 "*"
+COMMENT_BLOCK0 COMMENT_BLOCK1 "*"
+COMMENT_BLOCK1 COMMENT_BLOCK  "/"
+COMMENT_BLOCK1 COMMENT_BLOCK0 any
+COMMENT_BLOCK COMMENT null
+
+// comment inline
+SLASH0 COMMENT_INLINE0 "/"
+COMMENT_INLINE0 COMMENT_INLINE  "\n"
+COMMENT_INLINE0 COMMENT_INLINE0 any
+COMMENT_INLINE COMMENT null
+
+// comment
+COMMENT 0 null
+
+// division
+SLASH0 OP_DIV any
+OP_DIV 1 null
+
+// modulo
+0 OP_MOD "%"
+OP_MOD 0 null
+
+// less than, less than or equal, shift left
+0 LESS0 "<"
+
+// less than or equal
+LESS0 OP_LEQ "="
+OP_LEQ 0 null
+
+// shift left
+LESS0 OP_SHL "<"
+OP_SHL 0 null
+
+// less than
+LESS0 OP_LES any
+OP_LES 1 null
+
+// greater than, greater than or equal, shift right
+0 GREAT0 ">"
+
+// greater than or equal
+GREAT0 OP_GEQ "="
+OP_GEQ 0 null
+
+// shift right
+GREAT0 OP_SHR ">"
+OP_SHR 0 null
+
+// greater than
+GREAT0 OP_GEQ any
+OP_GEQ 1 null
+
+// equality
+0 OP_EQ "="
+OP_EQ 0 null
+
+// not operator, inequality
+0 EXCLAMATION0 "!"
+
+// inequality
+EXCLAMATION0 OP_NEQ "="
+OP_NEQ 0 null
+
+// not operator
+EXCLAMATION0 OP_NOT any
+OP_NOT 1 null
+
+// bitwise not (flip) operator
+0 OP_FLP "~"
+OP_FLP 0 null
+
+// and operator
+0 OP_AND "&"
+OP_AND 0 null
+
+// or operator
+0 OP_OR "|"
+OP_OR 0 null
+
+// xor operator
+0 OP_XOR "^"
+OP_XOR 0 null
+
+// at symbol
+0 AT "@"
+AT 0 null
+
+// dollar symbol
+0 DOLLAR "$"
+DOLLAR 0 null
+
+// colon symbol
+0 COLON ":"
+COLON 0 null
+
+// semicolon symbol
+0 SEMICOLON ";"
+SEMICOLON 0 null
+
+// backtick symbol 
+0 BACKTICK "`"
+BACKTICK 0 null
+
+// period symbol
+0 PERIOD "."
+PERIOD 0 null
+
+// comma symbol
+0 COMMA ","
+COMMA 0 null
+
+// question mark symbol
+0 QUESTION "?"
+QUESTION 0 null
+
+// hastag pound symbol
+0 POUND "#"
+POUND 0 null
+
+// backslash symbol
+0 BACKSLASH "\"
+BACKSLASH 0 null
+
+// underscore symbol
+0 UNDERSCORE "_"
+UNDERSCORE 0 null
+
+// left parenthesis symbol
+0 LPAREN "("
+LPAREN 0 null
+
+// right parenthesis symbol
+0 RPAREN ")"
+RPAREN 0 null
+
+// left brace symbol
+0 LBRACE "{"
+LBRACE 0 null
+
+// right brace symbol
+0 RBRACE ")"
+RBRACE 0 null
+
+// left bracket symbol
+0 LBRACKET "["
+LBRACKET 0 null
+
+// right bracket symbol
+0 RBRACKET "]"
+RBRACKET 0 null
+
+// arbitrary whitespace
+0 WHITESPACE0 " \t"
+WHITESPACE0 WHITESPACE0 " \t"
+WHITESPACE 1 any
+
+// alpha letters
+0 LETTER0 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+LETTER0 LETTER0 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+LETTER0 LETTERS any
+LETTERS 1 null
+
+// loop on any other symbol
+0 0 any
