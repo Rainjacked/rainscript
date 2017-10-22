@@ -1,0 +1,26 @@
+// Tokenizes compound keywords
+
+// configure callbacks
+OUT  out
+BACK back
+ERROR err
+REFLECT reflect
+
+// redirects
+OUT 0 null
+BACK OUT null
+
+// compound keywords
+0 COMPOUND0 KEYWORD
+COMPOUND0 COMPOUND0 KEYWORD
+COMPOUND0 COMPOUND1 COLON
+COMPOUND0 COMPOUND1 PERIOD
+COMPOUND0 COMPOUND any
+
+// split only on keywords
+COMPOUND1 COMPOUND0 KEYWORD
+COMPOUND1 COMPOUND any
+COMPOUND BACK null
+
+// reflect everything else
+0 REFLECT any
