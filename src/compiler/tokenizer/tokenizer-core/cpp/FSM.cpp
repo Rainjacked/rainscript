@@ -14,6 +14,7 @@ namespace rainscript {
 
         int n_states;
         int n_symbols;
+        int start_state;
         string *states;
         string *symbols;
         int *n_callbacks;
@@ -29,7 +30,7 @@ namespace rainscript {
             assert(fin.is_open());
 
             // read size
-            fin >> n_states >> n_symbols;
+            fin >> n_states >> n_symbols >> start_state;
 
             // allocate state and callbacks
             states = new string[n_states];

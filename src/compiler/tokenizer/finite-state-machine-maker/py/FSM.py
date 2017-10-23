@@ -61,7 +61,7 @@ class Graph(object):
             n = len(self.states)
             m = len(self.symbols)
 
-            f.write('%d %d\n' % (n, m))
+            f.write('%d %d %d\n' % (n, m, self.state_map['0']))
             for callback, state in zip(self.callbacks, self.states):
                 f.write('%s %d' % (state, len(callback)))
                 for function in callback:
