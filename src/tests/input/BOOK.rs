@@ -3,7 +3,8 @@
   // this is a variable that is True if you've compared a
   // VN to a book, and False otherwise
   set `flag:book = true
-  Me: "It's like an interactive book that you can read on a computer or a console."
+  Me: "It's like an interactive book that you can read on\n
+  \t\t\ta computer or a console."
 
   @show Sylvie(surprised)
 

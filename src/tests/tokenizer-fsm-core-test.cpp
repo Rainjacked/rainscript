@@ -43,6 +43,18 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
     if (!test_fsm_one_character_symbols_only(fsm))
         return false;
 
+    static char *esc_sequence = NULL;
+    if (esc_sequence == NULL) {
+        esc_sequence = new char[256];
+        esc_sequence['a'] = '\a';
+        esc_sequence['b'] = '\b';
+        esc_sequence['f'] = '\f';
+        esc_sequence['n'] = '\n';
+        esc_sequence['r'] = '\r';
+        esc_sequence['t'] = '\t';
+        esc_sequence['v'] = '\v';
+    }
+
     // create lookup array based on ascii values
     int max_ascii = 0;
     for (int i = 0; i < fsm.n_symbols; ++i)
@@ -68,22 +80,65 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
     int index = 0;
     size_t size = program.size();
 
+    // buffer for escaped octals/hexadecimals
+    int esc_buffer = 0;
+
     // create callback function that handles state changes
-    auto handler = [&fsm, &index]
+    auto handler = [&fsm, &index, &esc_buffer]
                     (int state, int symbol, const string& status) {
-        if (status == "back") {
-            // pop one character from buffer
-            buffer.pop_back();
-            --index;
-        } else if (status == "trim") {
-            while (!buffer.empty() && isspace(buffer.back())) {
-                buffer.erase(--buffer.end());
-            }
-            buffer.push_back(' ');
-        } else {
-            tokens.push_back(status);
-            lexemes.push_back(buffer);
-            buffer.clear();
+        switch (status[0]) {
+            case 'B': // back
+                // pop one character from buffer
+                buffer.pop_back();
+                --index;
+                break;
+            case 'T': // trim
+                do { buffer.pop_back(); }
+                while (buffer.back() == ' ');
+                buffer.push_back(' ');
+                break;
+            case 'P': // pop
+                buffer.pop_back();
+                break;
+            case 'e': // keep same character
+                buffer.erase(buffer.end() - 2);
+                break;
+            case 'E': // special escape
+                buffer.pop_back();
+                buffer.push_back(esc_sequence[fsm.symbols[symbol][0]]);
+                break;
+            case 'o': // arbitrary octal
+                esc_buffer = esc_buffer * 8 + (fsm.symbols[symbol][0] - '0');
+                buffer.pop_back();
+                break;
+            case 'O': // octal convert
+                buffer.pop_back();
+                // TODO: guard against overflow
+                buffer.push_back((char) esc_buffer);
+                esc_buffer = 0;
+                break;
+            case 'x': // arbitrary hexadecimal
+                buffer.pop_back();
+                {
+                    char ch = fsm.symbols[symbol][0];
+                    if ('0' <= ch && ch <= '9')
+                        esc_buffer = esc_buffer * 16 + (ch - '0');
+                    else if ('A' <= ch && ch <= 'F')
+                        esc_buffer = esc_buffer * 16 + 10 + (ch - 'A');
+                    else if ('a' <= ch && ch <= 'f')
+                        esc_buffer = esc_buffer * 16 + 10 + (ch - 'a');
+                }
+                break;
+            case 'X': // hexadecimal convert
+                buffer.pop_back();
+                buffer.push_back((char) esc_buffer);
+                esc_buffer = 0;
+                break;
+            default:
+                tokens.push_back(status);
+                lexemes.push_back(buffer);
+                buffer.clear();
+                break;
         }
         return true;
     };

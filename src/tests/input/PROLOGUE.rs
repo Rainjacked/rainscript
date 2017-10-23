@@ -31,7 +31,7 @@
 "Why am I not working?"
 "I wonder if my paycheck will get docked for this..."
 "What's... a paycheck?"
-"I think I'm forgetting things. I only understand half of what I'm saying..."
+"I think I'm forgetting things.\n\n\n\tI only understand half of what I'm saying..."
 
 @show(Payton, just there)
 

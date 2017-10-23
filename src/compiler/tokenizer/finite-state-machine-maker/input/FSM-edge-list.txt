@@ -5,39 +5,110 @@
 FALLBACK unknown
 FALLBACK 0 null
 
-// double-quoted string literal
-0 QSTR1 "\""
-QSTR1 STR "\""
+// string literal
+STR P
+STR s
+STR 0 null
+
+// single-quoted string literal
+0 QSTR1S "'"
+QSTR1S P
+QSTR1S QSTR1 null
+QSTR1 STR "'"
 QSTR1 QSTR1 any
 
-// escape with character after
-QSTR1 QSTR1E "\\"
-QSTR1E QSTR1 any
-
-// collapse whitespace on newlines
-QSTR1 QSTR1W "\n"
-QSTR1W trim
-QSTR1W QSTR1W "\n \t"
-QSTR1W QSTR1 any
-
-// single quoted string literal
-0 QSTR2 "'"
+// double-quoted string literal
+0 QSTR2S "\""
+QSTR2S P
+QSTR2S QSTR2 null
 QSTR2 STR "\""
 QSTR2 QSTR2 any
 
-// escape with character after
-QSTR2 QSTR2E "\\"
-QSTR2E QSTR2 any
-
 // collapse whitespace on newlines
+QSTR1 QSTR1W "\n"
+QSTR1W T
+QSTR1W QSTR1W "\n \t"
+QSTR1W QSTR1 any
+QSTR1W QSTR1E "\\"
+
 QSTR2 QSTR2W "\n"
-QSTR2W trim
+QSTR2W T
 QSTR2W QSTR2W "\n \t"
 QSTR2W QSTR2 any
+QSTR2W QSTR2E "\\"
 
-// string literal
-STR s
-STR 0 null
+// escape characters, similar to C++ escapes http://en.cppreference.com/w/cpp/language/escape
+QSTR1 QSTR1E "\\"
+QSTR1E P
+QSTR1E QSTR1 any
+
+QSTR2 QSTR2E "\\"
+QSTR2E P
+QSTR2E QSTR2 any
+
+// ignore the escape
+QSTR1E QSTR1 any
+QSTR2E QSTR2 any
+
+// keep same character
+QSTR1E QSTR1 "\"\\"
+QSTR1EKEEP e
+QSTR1EKEEP QSTR1 null
+
+QSTR2E QSTR2 "'\\"
+QSTR2EKEEP e
+QSTR2EKEEP QSTR2 null
+
+// audible bell "\a"
+// backspace "\b"
+// form feed "\f"
+// endline "\n"
+// carraige return "\r"
+// horizontal tab "\t"
+// vertical tab "\v"
+QSTR1E QSTR1EA "abfnrtv"
+QSTR1EA E
+QSTR1EA QSTR1 null
+
+QSTR2E QSTR2EA "abfnrtv"
+QSTR2EA E
+QSTR2EA QSTR2 null
+
+// arbitrary octal value
+QSTR1E QSTR1EO "01234567"
+QSTR1EO o
+QSTR1EO QSTR1EO "01234567"
+QSTR1EO QSTR1EOB any
+QSTR1EOB B
+QSTR1EOB O
+QSTR1EOB QSTR1 null
+
+QSTR2E QSTR2EO "01234567"
+QSTR2EO o
+QSTR2EO QSTR2EO "01234567"
+QSTR2EO QSTR2EOB any
+QSTR2EOB B
+QSTR2EOB O
+QSTR2EOB QSTR2 null
+
+// arbitrary hexadecimal value
+QSTR1E QSTR1EX "x"
+QSTR1EX x
+QSTR1EX QSTR1EX "0123456789ABCDEFabcdef"
+QSTR1EX QSTR1EXB any
+QSTR1EXB B
+QSTR1EXB X
+QSTR1EXB QSTR1 null
+
+QSTR2E QSTR2EX "x"
+QSTR2EX QSTR2EX "0123456789ABCDEFabcdef"
+QSTR2EX x
+QSTR2EX QSTR2EXB any
+QSTR2EXB B
+QSTR2EXB X
+QSTR2EXB QSTR2 null
+
+// TODO: add unicode parser "\u"
 
 // addition operator
 0 OP_ADD  "+"
@@ -79,7 +150,7 @@ OP_SHL 0 null
 
 // less than
 LESS0 OP_LES any
-OP_LES back
+OP_LES B
 OP_LES <
 OP_LES 0 null
 
@@ -98,7 +169,7 @@ OP_SHR 0 null
 
 // greater than
 GREAT0 OP_GRE any
-OP_GRE back
+OP_GRE B
 OP_GRE >
 OP_GRE 0 null
 
@@ -112,7 +183,7 @@ OP_EEQ 0 null
 
 // single equals
 EQ0 OP_EQ any
-OP_EQ back
+OP_EQ B
 OP_EQ =
 OP_EQ 0 null
 
@@ -126,7 +197,7 @@ OP_NEQ 0 null
 
 // exclamation operator
 EXCLAMATION0 OP_NOT any
-OP_NOT back
+OP_NOT B
 OP_NOT !
 OP_NOT 0 null
 
@@ -145,7 +216,7 @@ OP_AAND 0 null
 
 // single ampersand
 AND0 OP_AND any
-OP_AND back
+OP_AND B
 OP_AND &
 OP_AND 0 null
 
@@ -159,7 +230,7 @@ OP_OOR 0 null
 
 // single pipe
 OR0 OP_OR any
-OP_OR back
+OP_OR B
 OP_OR |
 OP_OR 0 null
 
@@ -188,7 +259,7 @@ COLON2 0 null
 
 // single colon
 COLON0 COLON1 any
-COLON1 back
+COLON1 B
 COLON1 :
 COLON1 0 null
 
@@ -213,13 +284,13 @@ PERIOD3 0 null
 
 // two periods
 PERIOD00 PERIOD2 any
-PERIOD2 back
+PERIOD2 B
 PERIOD2 ..
 PERIOD2 0 null
 
 // one period
 PERIOD0 PERIOD1 any
-PERIOD1 back
+PERIOD1 B
 PERIOD1 .
 PERIOD1 0 null
 
@@ -276,7 +347,7 @@ LBRACKET2 0 null
 
 // one left bracket
 LBRACKET0 LBRACKET1 any
-LBRACKET1 back
+LBRACKET1 B
 LBRACKET1 [
 LBRACKET1 0 null
 
@@ -290,7 +361,7 @@ RBRACKET2 0 null
 
 // one right bracket
 RBRACKET0 RBRACKET1 any
-RBRACKET1 back
+RBRACKET1 B
 RBRACKET1 ]
 RBRACKET1 0 null
 
@@ -298,7 +369,7 @@ RBRACKET1 0 null
 0 WHITESPACE0 " \t\n"
 WHITESPACE0 WHITESPACE0 " \t\n"
 WHITESPACE0 WHITESPACE any
-WHITESPACE back
+WHITESPACE B
 WHITESPACE w
 WHITESPACE 0 null
 
@@ -306,6 +377,6 @@ WHITESPACE 0 null
 0 KEYWORD0 "#$_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 KEYWORD0 KEYWORD0 "#$_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 KEYWORD0 KEYWORD any
-KEYWORD back
+KEYWORD B
 KEYWORD k
 KEYWORD 0 null
