@@ -31,11 +31,12 @@ def main():
                                 callbacks=callbacks,
                                 states=states,
                                 symbols=symbols))
+            print('PASSED')
         except Exception as e:
             print('Error in file: ' + folder + 'input/' + filename)
             print(e)
+            print('FAILED')
             
-        print('PASSED')
 
     for filename, graph in zip(files, graphs):
         graph.to_file(folder + 'output/' + filename)

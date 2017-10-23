@@ -19,7 +19,7 @@ namespace rainscript {
         string *symbols;
         int *n_callbacks;
         string **callbacks;
-        int *null;
+        int *null, *fallback;
         int **matrix;
 
         /**
@@ -37,7 +37,9 @@ namespace rainscript {
                     if (!handler(state_id, symbol_id, callbacks[state_id][i]))
                         return false;
             }
-            state_id = matrix[state_id][symbol_id];
+            state_id = (!(0 <= symbol_id && symbol_id < n_symbols) || matrix[state_id][symbol_id] == -1)
+                ? fallback[state_id]
+                : matrix[state_id][symbol_id];
             for (int i = 0; i < n_callbacks[state_id]; ++i)
                 if (!handler(state_id, symbol_id, callbacks[state_id][i]))
                     return false;
@@ -67,11 +69,12 @@ namespace rainscript {
             states = new string[n_states];
             n_callbacks = new int[n_states];
             callbacks = new string*[n_states];
+            fallback = new int[n_states];
 
             // read state names and callbacks
             for (int i = 0; i < n_states; ++i) {
                 int& length = n_callbacks[i];
-                fin >> states[i] >> length;
+                fin >> states[i] >> fallback[i] >> length;
                 if (length > 0) {
                     callbacks[i] = new string[length];
                     for (int j = 0; j < length; ++j)
@@ -132,6 +135,7 @@ namespace rainscript {
             delete[] callbacks;
             delete[] n_callbacks;
             delete[] null;
+            delete[] fallback;
             delete[] matrix;
         }
 

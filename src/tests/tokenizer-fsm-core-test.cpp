@@ -94,9 +94,7 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
         out << "tokens = " << token_size << '\n';
         out << "buffer = \"" << buffer << "\"\n\n";  
         for (size_t i = 0; i < token_size; ++i) {
-            out << "[" << i << "] " << tokens[i];
-            if (tokens[i] == "whitespace") out << '\n';
-            else out << " \"" << lexemes[i] << "\"\n";
+            out << "[" << i << "] " << (tokens[i] == "w" ? " " : lexemes[i]) << '\n';
         }
     };
 

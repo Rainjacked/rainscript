@@ -16,7 +16,8 @@ class Graph(object):
         for i in symbol_ids:
             symbol_map[symbol_list[i]] = i
 
-        matrix = [[None for j in symbol_ids] for i in state_ids]
+        fallback = [None for i in state_ids]
+        matrix = [[-1 for j in symbol_ids] for i in state_ids]
 
         for state1, state2, edge_symbol in edges:
 
@@ -24,25 +25,19 @@ class Graph(object):
             state2_id = state_map[state2]
 
             if edge_symbol == 'any':
-                assert isinstance(matrix[state1_id], list)
-                matrix[state1_id] = [state2_id if ij is None else ij
-                                     for ij in matrix[state1_id]]
+                fallback[state1_id] = state2_id
 
             elif edge_symbol == 'null':
-                matrix[state1_id] = state2_id
+                fallback[state1_id] = matrix[state1_id] = state2_id
 
             else:
                 symbol_id = symbol_map[edge_symbol]
                 matrix[state1_id][symbol_id] = state2_id
 
-        # make sure matrix[i][j] is never None
-        for i, row in enumerate(matrix):
-            if isinstance(row, list):
-                for j, cell in enumerate(row):
-                    if cell is None:
-                        raise Exception('Not all transitions in the'
-                            + ' finite state machine are filled! '
-                            + '[%s, "%s"]' % (state_list[i], symbol_list[j]))
+        # make sure that all fallbacks are handled
+        missing = [state_list[i] for i, x in enumerate(fallback) if x is None]
+        if missing:
+            raise Exception('No fallback for: ' + ','.join(missing))
 
         self.matrix = matrix
         self.states = state_list
@@ -50,6 +45,7 @@ class Graph(object):
         self.state_map = state_map
         self.symbol_map = symbol_map
         self.callbacks = [[] for i in state_ids]
+        self.fallback = fallback
 
         for state, callback in callbacks:
             assert state in state_map
@@ -62,8 +58,8 @@ class Graph(object):
             m = len(self.symbols)
 
             f.write('%d %d %d\n' % (n, m, self.state_map['0']))
-            for callback, state in zip(self.callbacks, self.states):
-                f.write('%s %d' % (state, len(callback)))
+            for callback, fallback_id, state in zip(self.callbacks, self.fallback, self.states):
+                f.write('%s %d %d' % (state, fallback_id, len(callback)))
                 for function in callback:
                     f.write(' %s' % function)
                 f.write('\n')

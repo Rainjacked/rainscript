@@ -1,5 +1,10 @@
 // Tokenizes keywords, event names, and consecutive characters
 
+// fallback for unknown characters
+0 FALLBACK any
+FALLBACK unknown
+FALLBACK 0 null
+
 // double-quoted string literal
 0 QSTR1 "\""
 QSTR1 STR "\""
@@ -31,7 +36,7 @@ QSTR2W QSTR2W "\n \t"
 QSTR2W QSTR2 any
 
 // string literal
-STR string
+STR s
 STR 0 null
 
 // addition operator
@@ -299,7 +304,7 @@ RBRACKET1 0 null
 WHITESPACE0 WHITESPACE0 " \t\n"
 WHITESPACE0 WHITESPACE any
 WHITESPACE back
-WHITESPACE whitespace
+WHITESPACE w
 WHITESPACE 0 null
 
 // keywords
@@ -307,5 +312,5 @@ WHITESPACE 0 null
 KEYWORD0 KEYWORD0 "_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 KEYWORD0 KEYWORD any
 KEYWORD back
-KEYWORD keyword
+KEYWORD k
 KEYWORD 0 null
