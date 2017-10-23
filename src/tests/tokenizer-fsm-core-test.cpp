@@ -8,22 +8,6 @@
 #include <regex>
 #define FSM_0_STANDARD_FILENAME "../compiler/tokenizer/finite-state-machine-maker/output/FSM-0-standard.txt"
 
-bool test_tokenize_1_remove_comments(std::string& program) {
-    static std::regex r_comments("//[^\n]*|/\\*(\\*(?!/)|[^\\*])*\\*/");
-    program = std::regex_replace(program, r_comments, "");
-    std::ofstream("output/tests/test_tokenize_1_remove_comments.txt") << program << std::flush;
-    return true;
-}
-
-bool test_tokenize_2_collapse_whitespace(std::string& program) {
-    static std::regex r_endlines("\\s+");
-    program = std::regex_replace(program, r_endlines, " ");
-    if (program.size() == 0 || program.back() != ' ')
-        program.push_back(' '); // force sentinel whitespace
-    std::ofstream("output/tests/test_tokenize_2_collapse_whitespace.txt") << program << std::endl;
-    return true;
-}
-
 bool test_fsm_one_character_symbols_only(const rainscript::FSM& fsm) {
     for (int i = 0; i < fsm.n_symbols; ++i)
         if (fsm.symbols[i].size() != 1)
@@ -31,7 +15,25 @@ bool test_fsm_one_character_symbols_only(const rainscript::FSM& fsm) {
     return true;
 }
 
-bool test_tokenize_3_FSM_standard(std::string& program) {
+bool test_tokenize_1_remove_comments(std::string& program, const std::string& output_filename) {
+    static std::regex r_comments("//[^\n]*|/\\*(\\*(?!/)|[^\\*])*\\*/");
+    program = std::regex_replace(program, r_comments, "");
+    std::ofstream(("output/" + output_filename + "_test_tokenize_1_remove_comments.txt").c_str())
+        << program << std::flush;
+    return true;
+}
+
+bool test_tokenize_2_collapse_whitespace(std::string& program, const std::string& output_filename) {
+    static std::regex r_endlines("\\s+");
+    program = std::regex_replace(program, r_endlines, " ");
+    if (program.size() == 0 || program.back() != ' ')
+        program.push_back(' '); // force sentinel whitespace
+    std::ofstream(("output/" + output_filename + "_test_tokenize_2_collapse_whitespace.txt").c_str())
+        << program << std::endl;
+    return true;
+}
+
+bool test_tokenize_3_FSM_standard(std::string& program, const std::string& output_filename) {
 
     using namespace std;
     rainscript::FSM fsm(FSM_0_STANDARD_FILENAME);
@@ -94,7 +96,7 @@ bool test_tokenize_3_FSM_standard(std::string& program) {
     };
 
     // simulate FSM
-    ofstream fout("output/tests/test_tokenize_3_FSM_standard.txt");
+    ofstream fout(("output/" + output_filename + "_test_tokenize_3_FSM_standard.txt").c_str());
 
     int state = fsm.start_state;
     while (index < size) {
@@ -125,18 +127,17 @@ bool test_tokenize_3_FSM_standard(std::string& program) {
 
 }
 
-bool test_tokenize(std::string program) {
-    return test_tokenize_1_remove_comments(program)
-        && test_tokenize_2_collapse_whitespace(program)
-        && test_tokenize_3_FSM_standard(program);
+bool test_tokenize(std::string program, const std::string& output_filename) {
+    return test_tokenize_1_remove_comments(program, output_filename)
+        && test_tokenize_2_collapse_whitespace(program, output_filename)
+        && test_tokenize_3_FSM_standard(program, output_filename);
 }
 
 bool test_tokenize_file(const char input_filename[], const char output_filename[]) {
     
     using namespace std;
 
-    ifstream fin("input/PROLOGUE.rs");
-    ofstream fout("output/PROLOGUE.rs");
+    ifstream fin(input_filename);
     fin.seekg(0, ios::end);
     ifstream::pos_type pos = fin.tellg();
 
@@ -144,15 +145,31 @@ bool test_tokenize_file(const char input_filename[], const char output_filename[
     vector<char> bytes(pos);
     fin.seekg(0, ios::beg);
     fin.read(&bytes[0], pos);
-    return test_tokenize(string(bytes.begin(), bytes.end()));
+    return test_tokenize(string(bytes.begin(), bytes.end()), output_filename);
 }
 
 int main() {
 
-    long start_time = std::clock();
-    if (test_tokenize_file("input/PROLOGUE.rs", "output/PROLOGUE.rs"))
-        std::cout << "PASSED" << std::endl;
+    using namespace std;
 
-    std::cout << "Tokenizing time: " << float(std::clock() - start_time) / CLOCKS_PER_SEC << " seconds" << std::endl;
+    vector<string> files = {
+        "BOOK.rs",
+        "GAME.rs",
+        "MARRY.rs",
+        "PROLOGUE.rs",
+        "START.rs"
+    };
+
+    int index = 0;
+    for (auto& filename : files) {
+        cout << "TEST " << filename << "... " << flush;
+        long start_time = clock();
+        if (test_tokenize_file(("input/" + filename).c_str(), filename.data()))
+            cout << "PASSED" << endl;
+        else
+            cout << "FAILED" << endl;
+        cout << "\ttime: " << float(std::clock() - start_time) / CLOCKS_PER_SEC << " seconds" << endl;
+    }
+
 
 }
