@@ -1,19 +1,9 @@
 // Tokenizes literals, keywords, and standard operations
 
-// configure callbacks
-OUT  out
-BACK back
-IGNORE ignore
-ERROR err
-
-// redirects
-OUT  0 null
-BACK OUT null
-IGNORE 0 null
-
 // go to error if bad character
 0 ERROR any
 ERROR 0 null
+ERROR err
 
 // double-quoted string literal
 0        QSTR1            "\""
@@ -30,7 +20,8 @@ QSTR2    QSTR2            any
 QSTR2    STR              "'"
 
 // string literal
-STR OUT null
+STR out
+STR 0 null
 
 // integer prefixes
 0    INT0 "0"
@@ -46,181 +37,230 @@ INTX INT1 "0123456789"
 INT1 INT1 "0123456789"
 INTB ERROR any
 INTX ERROR any
-INT1 ERROR any
 INT1 INT  any
 
 // integer literal
-INT BACK null
+INT back
+INT out
+INT 0 null
 
 // addition operator
 0 OP_ADD  "+"
-OP_ADD OUT null
+OP_ADD out
+OP_ADD 0 null
 
 // subtraction operator
 0 OP_SUB "-"
-OP_SUB OUT null
+OP_SUB out
+OP_SUB 0 null
 
 // multiplication operator
 0 OP_MUL "*"
-OP_MUL OUT null
+OP_MUL out
+OP_MUL 0 null
 
 // division operator and comments
 0 OP_DIV "/"
-OP_DIV BACK null
+OP_DIV out
+OP_DIV 0 null
 
 // division
 SLASH0 OP_DIV any
-OP_DIV BACK null
+OP_DIV back
+OP_DIV out
+OP_DIV 0 null
 
 // modulo
 0 OP_MOD "%"
-OP_MOD OUT null
+OP_MOD out
+OP_MOD 0 null
 
 // less than, less than or equal, shift left
 0 LESS0 "<"
 
 // less than or equal
 LESS0 OP_LEQ "="
-OP_LEQ OUT null
+OP_LEQ out
+OP_LEQ 0 null
 
 // shift left
 LESS0 OP_SHL "<"
-OP_SHL OUT null
+OP_SHL out
+OP_SHL 0 null
 
 // less than
 LESS0 OP_LES any
-OP_LES BACK null
+OP_LES out
+OP_LES 0 null
 
 // greater than, greater than or equal, shift right
 0 GREAT0 ">"
 
 // greater than or equal
 GREAT0 OP_GEQ "="
-OP_GEQ OUT null
+OP_GEQ out
+OP_GEQ 0 null
 
 // shift right
 GREAT0 OP_SHR ">"
-OP_SHR OUT null
+OP_SHR out
+OP_SHR 0 null
 
 // greater than
-GREAT0 OP_GEQ any
-OP_GEQ BACK null
+GREAT0 OP_GRE any
+OP_GRE back
+OP_GRE out
+OP_GRE 0 null
 
 // equality
 0 OP_EQ "="
-OP_EQ OUT null
+OP_EQ out
+OP_EQ 0 null
 
 // not operator, inequality
 0 EXCLAMATION0 "!"
 
 // inequality
 EXCLAMATION0 OP_NEQ "="
-OP_NEQ OUT null
+OP_NEQ out
+OP_NEQ 0 null
 
 // not operator
 EXCLAMATION0 OP_NOT any
-OP_NOT BACK null
+OP_NOT back
+OP_NOT out
+OP_NOT 0 null
 
 // bitwise not (flip) operator
 0 OP_FLP "~"
-OP_FLP OUT null
+OP_FLP out
+OP_FLP 0 null
 
 // and operator
 0 OP_AND "&"
-OP_AND OUT null
+OP_AND out
+OP_AND 0 null
 
 // or operator
 0 OP_OR "|"
-OP_OR OUT null
+OP_OR out
+OP_OR 0 null
 
 // xor operator
 0 OP_XOR "^"
-OP_XOR OUT null
+OP_XOR out
+OP_XOR 0 null
 
 // at symbol
 0 AT "@"
-AT OUT null
+AT out
+AT 0 null
 
 // dollar symbol
 0 DOLLAR "$"
-DOLLAR OUT null
+DOLLAR out
+DOLLAR 0 null
 
 // colon symbol
 0 COLON ":"
-COLON OUT null
+COLON out
+COLON 0 null
 
 // semicolon symbol
 0 SEMICOLON ";"
-SEMICOLON OUT null
+SEMICOLON out
+SEMICOLON 0 null
 
 // backtick symbol 
 0 BACKTICK "`"
-BACKTICK OUT null
+BACKTICK out
+BACKTICK 0 null
 
 // period and two periods
 0 PERIOD0 "."
 PERIOD0 PPERIOD "."
 PERIOD0 PERIOD any
-PPERIOD OUT null
-PERIOD BACK null
+PPERIOD out
+PPERIOD 0 null
+PERIOD back
+PERIOD out
+PERIOD 0 null
 
 // comma symbol
 0 COMMA ","
-COMMA OUT null
+COMMA out
+COMMA 0 null
 
 // question mark symbol
 0 QUESTION "?"
-QUESTION OUT null
+QUESTION out
+QUESTION 0 null
 
 // hastag pound symbol
 0 POUND "#"
-POUND OUT null
+POUND out
+POUND 0 null
 
 // backslash symbol
 0 BACKSLASH "\\"
-BACKSLASH OUT null
+BACKSLASH out
+BACKSLASH 0 null
 
 // underscore symbol
 0 UNDERSCORE "_"
-UNDERSCORE OUT null
+UNDERSCORE out
+UNDERSCORE 0 null
 
 // left parenthesis symbol
 0 LPAREN "("
-LPAREN OUT null
+LPAREN out
+LPAREN 0 null
 
 // right parenthesis symbol
 0 RPAREN ")"
-RPAREN OUT null
+RPAREN out
+RPAREN 0 null
 
 // left brace symbol
 0 LBRACE "{"
-LBRACE OUT null
+LBRACE out
+LBRACE 0 null
 
 // right brace symbol
 0 RBRACE ")"
-RBRACE OUT null
+RBRACE out
+RBRACE 0 null
 
 // left bracket symbol
 0 LBRACKET0 "["
 LBRACKET0 LLBRACKET "["
 LBRACKET0 LBRACKET any
-LBRACKET BACK null
-LLBRACKET OUT null
+LBRACKET back
+LBRACKET out
+LBRACKET 0 null
+LLBRACKET out
+LLBRACKET 0 null
 
 // right bracket symbol
 0 RBRACKET0 "]"
 RBRACKET0 RRBRACKET "]"
 RBRACKET0 RBRACKET any
-RBRACKET BACK null
-RRBRACKET OUT null
+RBRACKET back
+RBRACKET out
+RBRACKET 0 null
+RRBRACKET out
+RRBRACKET 0 null
 
 // arbitrary whitespace
-0 WHITESPACE " \t\0"
-WHITESPACE IGNORE null
+0 WHITESPACE " "
+WHITESPACE out
+WHITESPACE 0 null
 
 // keywords
 0 KEYWORD0 "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 KEYWORD0 KEYWORD0 "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 KEYWORD0 KEYWORD0 "0123456789"
 KEYWORD0 KEYWORD any
-KEYWORD BACK null
+KEYWORD back
+KEYWORD out
+KEYWORD 0 null

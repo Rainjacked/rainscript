@@ -1,0 +1,556 @@
+index  = 1111 of 1111
+tokens = 184
+buffer = ""
+
+[0] LLBRACKET
+[[
+
+[1] WHITESPACE
+ 
+
+[2] KEYWORD
+PROLOGUE
+
+[3] WHITESPACE
+ 
+
+[4] RRBRACKET
+]]
+
+[5] WHITESPACE
+ 
+
+[6] AT
+@
+
+[7] KEYWORD
+fade
+
+[8] LPAREN
+(
+
+[9] INT
+1
+
+[10] PERIOD
+.
+
+[11] INT
+2
+
+[12] WHITESPACE
+ 
+
+[13] KEYWORD
+seconds
+
+[14] RBRACE
+)
+
+[15] WHITESPACE
+ 
+
+[16] AT
+@
+
+[17] KEYWORD
+background
+
+[18] LPAREN
+(
+
+[19] KEYWORD
+black
+
+[20] RBRACE
+)
+
+[21] WHITESPACE
+ 
+
+[22] STR
+"Cold..."
+
+[23] WHITESPACE
+ 
+
+[24] STR
+"Cold?"
+
+[25] WHITESPACE
+ 
+
+[26] STR
+"Coldcoldcoldcoldcold"
+
+[27] WHITESPACE
+ 
+
+[28] STR
+"I need a blanket... wait. Did I fall asleep? Where's my bed?"
+
+[29] WHITESPACE
+ 
+
+[30] STR
+"..."
+
+[31] WHITESPACE
+ 
+
+[32] STR
+"What's a bed?"
+
+[33] WHITESPACE
+ 
+
+[34] STR
+"It sounds familiar... but what is it?"
+
+[35] WHITESPACE
+ 
+
+[36] AT
+@
+
+[37] KEYWORD
+fade
+
+[38] LPAREN
+(
+
+[39] INT
+1
+
+[40] PERIOD
+.
+
+[41] INT
+2
+
+[42] WHITESPACE
+ 
+
+[43] KEYWORD
+seconds
+
+[44] RBRACE
+)
+
+[45] WHITESPACE
+ 
+
+[46] AT
+@
+
+[47] KEYWORD
+background
+
+[48] LPAREN
+(
+
+[49] KEYWORD
+starry
+
+[50] RBRACE
+)
+
+[51] WHITESPACE
+ 
+
+[52] STR
+"Stars..."
+
+[53] WHITESPACE
+ 
+
+[54] STR
+"Stars?"
+
+[55] WHITESPACE
+ 
+
+[56] STR
+"They're beautiful."
+
+[57] WHITESPACE
+ 
+
+[58] STR
+"But there's something wrong..."
+
+[59] WHITESPACE
+ 
+
+[60] STR
+"Should I be seeing stars?"
+
+[61] WHITESPACE
+ 
+
+[62] STR
+"Stars... Space..."
+
+[63] WHITESPACE
+ 
+
+[64] STR
+"Space?"
+
+[65] WHITESPACE
+ 
+
+[66] AT
+@
+
+[67] KEYWORD
+flash
+
+[68] LPAREN
+(
+
+[69] KEYWORD
+white
+
+[70] RBRACE
+)
+
+[71] WHITESPACE
+ 
+
+[72] AT
+@
+
+[73] KEYWORD
+background
+
+[74] LPAREN
+(
+
+[75] KEYWORD
+station
+
+[76] RBRACE
+)
+
+[77] WHITESPACE
+ 
+
+[78] STR
+"Ah, space. I... work in space."
+
+[79] WHITESPACE
+ 
+
+[80] STR
+"Why am I not working?"
+
+[81] WHITESPACE
+ 
+
+[82] STR
+"I wonder if my paycheck will get docked for this..."
+
+[83] WHITESPACE
+ 
+
+[84] STR
+"What's... a paycheck?"
+
+[85] WHITESPACE
+ 
+
+[86] STR
+"I think I'm forgetting things. I only understand half of what I'm saying..."
+
+[87] WHITESPACE
+ 
+
+[88] AT
+@
+
+[89] KEYWORD
+show
+
+[90] LPAREN
+(
+
+[91] KEYWORD
+Payton
+
+[92] COMMA
+,
+
+[93] WHITESPACE
+ 
+
+[94] KEYWORD
+just
+
+[95] WHITESPACE
+ 
+
+[96] KEYWORD
+there
+
+[97] RBRACE
+)
+
+[98] WHITESPACE
+ 
+
+[99] STR
+"Who is that?"
+
+[100] WHITESPACE
+ 
+
+[101] STR
+"Is she important?"
+
+[102] WHITESPACE
+ 
+
+[103] STR
+"I think she's important. Probably. Maybe."
+
+[104] WHITESPACE
+ 
+
+[105] STR
+"I think I like her. Whoever she is."
+
+[106] WHITESPACE
+ 
+
+[107] AT
+@
+
+[108] KEYWORD
+hide
+
+[109] LPAREN
+(
+
+[110] KEYWORD
+Payton
+
+[111] RBRACE
+)
+
+[112] WHITESPACE
+ 
+
+[113] AT
+@
+
+[114] KEYWORD
+show
+
+[115] LPAREN
+(
+
+[116] KEYWORD
+Janine
+
+[117] RBRACE
+)
+
+[118] WHITESPACE
+ 
+
+[119] STR
+"!!!"
+
+[120] WHITESPACE
+ 
+
+[121] STR
+"I know her!"
+
+[122] WHITESPACE
+ 
+
+[123] STR
+"Ja... nine?"
+
+[124] WHITESPACE
+ 
+
+[125] STR
+"I..."
+
+[126] WHITESPACE
+ 
+
+[127] STR
+"I don't like her..."
+
+[128] WHITESPACE
+ 
+
+[129] STR
+"She's..."
+
+[130] WHITESPACE
+ 
+
+[131] STR
+"*She did this*"
+
+[132] WHITESPACE
+ 
+
+[133] STR
+"What? What did she do?"
+
+[134] WHITESPACE
+ 
+
+[135] AT
+@
+
+[136] KEYWORD
+shake
+
+[137] WHITESPACE
+ 
+
+[138] STR
+"*She did **this***"
+
+[139] WHITESPACE
+ 
+
+[140] STR
+"She... did... this..."
+
+[141] WHITESPACE
+ 
+
+[142] AT
+@
+
+[143] KEYWORD
+shake
+
+[144] WHITESPACE
+ 
+
+[145] STR
+"Rage..."
+
+[146] WHITESPACE
+ 
+
+[147] STR
+"Rage?"
+
+[148] WHITESPACE
+ 
+
+[149] AT
+@
+
+[150] KEYWORD
+shake
+
+[151] WHITESPACE
+ 
+
+[152] AT
+@
+
+[153] KEYWORD
+shake
+
+[154] WHITESPACE
+ 
+
+[155] AT
+@
+
+[156] KEYWORD
+shake
+
+[157] WHITESPACE
+ 
+
+[158] STR
+"Rageragerageragerage... !!!!"
+
+[159] WHITESPACE
+ 
+
+[160] AT
+@
+
+[161] KEYWORD
+fade
+
+[162] LPAREN
+(
+
+[163] INT
+2
+
+[164] WHITESPACE
+ 
+
+[165] KEYWORD
+seconds
+
+[166] RBRACE
+)
+
+[167] WHITESPACE
+ 
+
+[168] AT
+@
+
+[169] KEYWORD
+background
+
+[170] LPAREN
+(
+
+[171] KEYWORD
+black
+
+[172] RBRACE
+)
+
+[173] WHITESPACE
+ 
+
+[174] KEYWORD
+goto
+
+[175] WHITESPACE
+ 
+
+[176] LLBRACKET
+[[
+
+[177] WHITESPACE
+ 
+
+[178] KEYWORD
+CHAPTER
+
+[179] WHITESPACE
+ 
+
+[180] INT
+01
+
+[181] WHITESPACE
+ 
+
+[182] RRBRACKET
+]]
+
+[183] WHITESPACE
+ 
+

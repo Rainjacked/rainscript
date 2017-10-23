@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <cassert>
-#include <unistd.h>
+#include <functional>
 
 namespace rainscript {
 
@@ -22,6 +22,37 @@ namespace rainscript {
         int *null;
         int **matrix;
 
+        /**
+         * Simulate change of state given a symbol in-place. Functionally handle any
+         * possible callbacks upon changing of states.
+         * @param state_id  the index of the current state
+         * @param symbol_id the index of the symbol used for transition
+         * @param handler   a callback function that handles what happens when a particular
+         *                  state is being visited
+         */
+        bool next(int& state_id, int symbol_id, std::function<bool(int, int, const string&)> handler) const {
+            while (matrix[state_id] == NULL) {
+                state_id = null[state_id];
+                for (int i = 0; i < n_callbacks[state_id]; ++i)
+                    if (!handler(state_id, symbol_id, callbacks[state_id][i]))
+                        return false;
+            }
+            state_id = matrix[state_id][symbol_id];
+            for (int i = 0; i < n_callbacks[state_id]; ++i)
+                if (!handler(state_id, symbol_id, callbacks[state_id][i]))
+                    return false;
+            while (matrix[state_id] == NULL) {
+                state_id = null[state_id];
+                for (int i = 0; i < n_callbacks[state_id]; ++i)
+                    if (!handler(state_id, symbol_id, callbacks[state_id][i]))
+                        return false;
+            }
+            return true;
+        }
+
+        /**
+         * Constructs a finite state machine given description from a file.
+         */
         FSM(const char filename[]) {
 
             static string buffer;
@@ -49,7 +80,6 @@ namespace rainscript {
                     callbacks[i] = NULL;
                 }
             }
-
 
             // move cursor down
             getline(fin, buffer);
@@ -87,6 +117,9 @@ namespace rainscript {
 
         }
 
+        /**
+         * Garbage collection of this finite state machine.
+         */
         ~FSM() {
             return;
             for (int i = 0; i < n_states; ++i) {

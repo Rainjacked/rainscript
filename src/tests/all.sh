@@ -1,5 +1,6 @@
 #!/bin/bash
 mkdir -p build
+mkdir -p output/tests
 
 echo "Test 1: tokenizer-fsm-maker-test.py"
 python2 tokenizer-fsm-maker-test.py

@@ -1,17 +1,11 @@
 // Tokenizes compound keywords
 
 // configure callbacks
-OUT  out
-BACK back
 ERROR err
-REFLECT reflect
-
-// redirects
-OUT 0 null
-BACK OUT null
 ERROR 0 null
 
 // reflect with the same token by default
+REFLECT reflect
 0 REFLECT any
 REFLECT 0 null
 
@@ -26,4 +20,6 @@ COMPOUND0 COMPOUND any
 COMPOUND1 COMPOUND0 KEYWORD
 COMPOUND1 COMPOUND OP_SUB
 COMPOUND1 ERROR any
-COMPOUND BACK null
+COMPOUND back
+COMPOUND out
+COMPOUND 0 null
