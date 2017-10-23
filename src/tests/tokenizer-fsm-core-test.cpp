@@ -5,6 +5,7 @@
 #include <cassert>
 #include <ctime>
 #include <cctype>
+#include <cstdlib>
 #include <vector>
 #include <regex>
 #define FSM_0_STANDARD_FILENAME "../compiler/tokenizer/finite-state-machine-maker/output/FSM-edge-list.txt"
@@ -48,8 +49,10 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
         max_ascii = max<int>(max_ascii, fsm.symbols[i][0]);
 
     int *ascii_index = new int[max_ascii + 1];
+    memset(ascii_index, -1, sizeof(int) * (max_ascii + 1));
     for (int i = 0; i < fsm.n_symbols; ++i)
         ascii_index[fsm.symbols[i][0]] = i;
+
 
     // buffer of tokens
     static vector<string> tokens, lexemes;
@@ -107,7 +110,7 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
         buffer.push_back(ch);
         // jump to next state
         int symbol = ascii_index[ch];
-        if (!fsm.next(state, symbol, handler)) {
+        if (symbol == -1 || !fsm.next(state, symbol, handler)) {
             print(fout);
             delete[] ascii_index;
             return false;
