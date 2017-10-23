@@ -68,7 +68,7 @@ class Graph(object):
                     f.write(' %s' % function)
                 f.write('\n')
 
-            f.write('%s\n' % '\n'.join(self.symbols))
+            f.write('%s\0' % '\0'.join(self.symbols))
             
             for row in self.matrix:
                 if isinstance(row, list):
@@ -103,7 +103,7 @@ def parse(filename):
                 if esc:
                     buf += ch
                     esc = False
-                elif ch == '\\':
+                elif ch == '\\' and quo:
                     buf += ch
                     esc = True
                 elif ch == '"':
@@ -138,12 +138,11 @@ def parse(filename):
             else:
                 # invalid input
                 print("Error on line %d of file %s" % (line_number, filename))
-                return
-
+                return edges, callbacks
     return edges, callbacks
 
 def test():
-    files = ['FSM-0-standard.txt', 'FSM-1-compound.txt', 'FSM-2-prefixes.txt']
+    files = ['FSM-edge-list.txt']
     graphs = []
     for filename in files:
         edges, callbacks = parse('../input/' + filename)

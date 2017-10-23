@@ -3,7 +3,7 @@
 def main():
 
     folder = '../compiler/tokenizer/finite-state-machine-maker/'
-    files = ['FSM-0-standard.txt', 'FSM-1-compound.txt', 'FSM-2-prefixes.txt']
+    files = ['FSM-edge-list.txt']
 
     import sys
     sys.path.append(folder + 'py')

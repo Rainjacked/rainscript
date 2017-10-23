@@ -87,10 +87,9 @@ namespace rainscript {
             // allocate symbols
             symbols = new string[n_symbols];
 
-
             // read symbols per line
             for (int i = 0; i < n_symbols; ++i) {
-                getline(fin, symbols[i]);
+                getline(fin, symbols[i], '\0');
             }
 
             // allocate null pointers and FSM adjacency matrix

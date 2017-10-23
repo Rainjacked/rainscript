@@ -4,9 +4,10 @@
 #include <fstream>
 #include <cassert>
 #include <ctime>
+#include <cctype>
 #include <vector>
 #include <regex>
-#define FSM_0_STANDARD_FILENAME "../compiler/tokenizer/finite-state-machine-maker/output/FSM-0-standard.txt"
+#define FSM_0_STANDARD_FILENAME "../compiler/tokenizer/finite-state-machine-maker/output/FSM-edge-list.txt"
 
 bool test_fsm_one_character_symbols_only(const rainscript::FSM& fsm) {
     for (int i = 0; i < fsm.n_symbols; ++i)
@@ -58,29 +59,28 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
     lexemes.clear();
     buffer.clear();
 
+    // last token should be whitespace
+    program.push_back(' ');
+
     int index = 0;
     size_t size = program.size();
 
     // create callback function that handles state changes
     auto handler = [&fsm, &index]
                     (int state, int symbol, const string& status) {
-        if (status == "out") {
-            // flush buffer
-            const string& state_name = fsm.states[state];
-            tokens.push_back(state_name);
-            lexemes.push_back(buffer);
-            buffer.clear();
-        } else if (status == "back") {
+        if (status == "back") {
             // pop one character from buffer
             buffer.pop_back();
             --index;
-        } else if (status == "err") {
-            const string& state_name = fsm.states[state];
-            cerr << "ERROR IN STATE " << state_name << endl;
-            return false;
+        } else if (status == "trim") {
+            while (!buffer.empty() && isspace(buffer.back())) {
+                buffer.erase(--buffer.end());
+            }
+            buffer.push_back(' ');
         } else {
-            cerr << "NO HANDLER DEFINED FOR " << status << endl;
-            return false;
+            tokens.push_back(status);
+            lexemes.push_back(buffer);
+            buffer.clear();
         }
         return true;
     };
@@ -91,7 +91,9 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
         out << "tokens = " << token_size << '\n';
         out << "buffer = \"" << buffer << "\"\n\n";  
         for (size_t i = 0; i < token_size; ++i) {
-            out << "[" << i << "] " << tokens[i] << "\n" << lexemes[i] << "\n\n";
+            out << "[" << i << "] " << tokens[i];
+            if (tokens[i] == "whitespace") out << '\n';
+            else out << " \"" << lexemes[i] << "\"\n";
         }
     };
 
@@ -114,13 +116,6 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
 
     delete[] ascii_index;
 
-    if (state != fsm.start_state) {
-        cerr << "PARSING INCOMPLETE (start = " << fsm.start_state
-             << ", cur = " << state << ")\n";
-        print(fout);
-        return false;
-    }
-
     // everything ok
     print(fout);
     return true;
@@ -129,7 +124,7 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
 
 bool test_tokenize(std::string program, const std::string& output_filename) {
     return test_tokenize_1_remove_comments(program, output_filename)
-        && test_tokenize_2_collapse_whitespace(program, output_filename)
+        // && test_tokenize_2_collapse_whitespace(program, output_filename)
         && test_tokenize_3_FSM_standard(program, output_filename);
 }
 

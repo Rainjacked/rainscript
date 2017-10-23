@@ -1,0 +1,311 @@
+// Tokenizes keywords, event names, and consecutive characters
+
+// double-quoted string literal
+0 QSTR1 "\""
+QSTR1 STR "\""
+QSTR1 QSTR1 any
+
+// escape with character after
+QSTR1 QSTR1E "\\"
+QSTR1E QSTR1 any
+
+// collapse whitespace on newlines
+QSTR1 QSTR1W "\n"
+QSTR1W trim
+QSTR1W QSTR1W "\n \t"
+QSTR1W QSTR1 any
+
+// single quoted string literal
+0 QSTR2 "'"
+QSTR2 STR "\""
+QSTR2 QSTR2 any
+
+// escape with character after
+QSTR2 QSTR2E "\\"
+QSTR2E QSTR2 any
+
+// collapse whitespace on newlines
+QSTR2 QSTR2W "\n"
+QSTR2W trim
+QSTR2W QSTR2W "\n \t"
+QSTR2W QSTR2 any
+
+// string literal
+STR string
+STR 0 null
+
+// addition operator
+0 OP_ADD  "+"
+OP_ADD +
+OP_ADD 0 null
+
+// subtraction operator
+0 OP_SUB "-"
+OP_SUB -
+OP_SUB 0 null
+
+// multiplication operator
+0 OP_MUL "*"
+OP_MUL *
+OP_MUL 0 null
+
+// division operator and comments
+0 OP_DIV "/"
+OP_DIV /
+OP_DIV 0 null
+
+// modulo
+0 OP_MOD "%"
+OP_MOD %
+OP_MOD 0 null
+
+// less than, less than or equal, shift left
+0 LESS0 "<"
+
+// less than or equal
+LESS0 OP_LEQ "="
+OP_LEQ <=
+OP_LEQ 0 null
+
+// shift left
+LESS0 OP_SHL "<"
+OP_SHL <<
+OP_SHL 0 null
+
+// less than
+LESS0 OP_LES any
+OP_LES back
+OP_LES <
+OP_LES 0 null
+
+// greater than, greater than or equal, shift right
+0 GREAT0 ">"
+
+// greater than or equal
+GREAT0 OP_GEQ "="
+OP_GEQ >=
+OP_GEQ 0 null
+
+// shift right
+GREAT0 OP_SHR ">"
+OP_SHR >>
+OP_SHR 0 null
+
+// greater than
+GREAT0 OP_GRE any
+OP_GRE back
+OP_GRE >
+OP_GRE 0 null
+
+// equality or assignment
+0 EQ0 "="
+
+// double equals
+EQ0 OP_EEQ "="
+OP_EEQ ==
+OP_EEQ 0 null
+
+// single equals
+EQ0 OP_EQ any
+OP_EQ back
+OP_EQ =
+OP_EQ 0 null
+
+// not operator, inequality
+0 EXCLAMATION0 "!"
+
+// inequality
+EXCLAMATION0 OP_NEQ "="
+OP_NEQ !=
+OP_NEQ 0 null
+
+// exclamation operator
+EXCLAMATION0 OP_NOT any
+OP_NOT back
+OP_NOT !
+OP_NOT 0 null
+
+// bitwise not (flip) operator
+0 OP_FLP "~"
+OP_FLP ~
+OP_FLP 0 null
+
+// ampersand operator
+0 AND0 "&"
+
+// double ampersand
+AND0 OP_AAND "&"
+OP_AAND &&
+OP_AAND 0 null
+
+// single ampersand
+AND0 OP_AND any
+OP_AND back
+OP_AND &
+OP_AND 0 null
+
+// pipe operator
+0 OR0 "|"
+
+// double pipe
+OR0 OP_OOR "|"
+OP_OOR ||
+OP_OOR 0 null
+
+// single pipe
+OR0 OP_OR any
+OP_OR back
+OP_OR |
+OP_OR 0 null
+
+// caret
+0 OP_XOR "^"
+OP_XOR out
+OP_XOR 0 null
+
+// at symbol
+0 AT "@"
+AT out
+AT 0 null
+
+// dollar symbol
+0 DOLLAR "$"
+DOLLAR out
+DOLLAR 0 null
+
+// colon symbol
+0 COLON0 ":"
+
+// double colon
+COLON0 COLON2 ":"
+COLON2 ::
+COLON2 0 null
+
+// single colon
+COLON0 COLON1 any
+COLON1 back
+COLON1 :
+COLON1 0 null
+
+// semicolon symbol
+0 SEMICOLON ";"
+SEMICOLON out
+SEMICOLON 0 null
+
+// backtick symbol 
+0 BACKTICK "`"
+BACKTICK out
+BACKTICK 0 null
+
+// period
+0 PERIOD0 "."
+PERIOD0 PERIOD00 "."
+
+// three periods
+PERIOD00 PERIOD3 "."
+PERIOD3 ...
+PERIOD3 0 null
+
+// two periods
+PERIOD00 PERIOD2 any
+PERIOD2 back
+PERIOD2 ..
+PERIOD2 0 null
+
+// one period
+PERIOD0 PERIOD1 any
+PERIOD1 back
+PERIOD1 .
+PERIOD1 0 null
+
+// comma symbol
+0 COMMA ","
+COMMA out
+COMMA 0 null
+
+// question mark
+0 QUESTION0 "?"
+
+// two question marks
+QUESTION0 QUESTION2 "?"
+QUESTION2 ??
+QUESTION2 0 null
+
+// one question mark
+QUESTION0 QUESTION1 any
+QUESTION1 ?
+QUESTION1 0 null
+
+// hastag pound symbol
+0 POUND "#"
+POUND #
+POUND 0 null
+
+// backslash symbol
+0 BACKSLASH "\\"
+BACKSLASH \
+BACKSLASH 0 null
+
+// left parenthesis symbol
+0 LPAREN "("
+LPAREN (
+LPAREN 0 null
+
+// right parenthesis symbol
+0 RPAREN ")"
+RPAREN )
+RPAREN 0 null
+
+// left brace symbol
+0 LBRACE "{"
+LBRACE {
+LBRACE 0 null
+
+// right brace symbol
+0 RBRACE "}"
+RBRACE }
+RBRACE 0 null
+
+// left bracket symbol
+0 LBRACKET0 "["
+
+// two left brackets
+LBRACKET0 LBRACKET2 "["
+LBRACKET2 [[
+LBRACKET2 0 null
+
+// one left bracket
+LBRACKET0 LBRACKET1 any
+LBRACKET1 back
+LBRACKET1 [
+LBRACKET1 0 null
+
+// right bracket symbol
+0 RBRACKET0 "]"
+
+// two right brackets
+RBRACKET0 RBRACKET2 "]"
+RBRACKET2 ]]
+RBRACKET2 0 null
+
+// one right bracket
+RBRACKET0 RBRACKET1 any
+RBRACKET1 back
+RBRACKET1 ]
+RBRACKET1 0 null
+
+// arbitrary whitespace
+0 WHITESPACE0 " \t\n"
+WHITESPACE0 WHITESPACE0 " \t\n"
+WHITESPACE0 WHITESPACE any
+WHITESPACE back
+WHITESPACE whitespace
+WHITESPACE 0 null
+
+// keywords
+0 KEYWORD0 "_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+KEYWORD0 KEYWORD0 "_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+KEYWORD0 KEYWORD any
+KEYWORD back
+KEYWORD keyword
+KEYWORD 0 null
