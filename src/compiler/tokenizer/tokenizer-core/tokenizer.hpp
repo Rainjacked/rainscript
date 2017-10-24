@@ -17,7 +17,7 @@ namespace rainscript {
          * Constructs a tokenizer for Rainscript
          * from a finite state machine.
          */
-        tokenizer(rainscript::fsm);
+        tokenizer(rainscript::fsm*);
 
         /**
          * Gets the current state ID
@@ -35,7 +35,7 @@ namespace rainscript {
         /**
          * A list of tokens captured by this tokenizer.
          */
-        vector<token_t> get_tokens() const;
+        token_collection get_tokens() const;
 
     };
 
