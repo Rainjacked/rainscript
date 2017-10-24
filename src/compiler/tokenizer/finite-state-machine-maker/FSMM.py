@@ -72,10 +72,8 @@ class Graph(object):
                 else:
                     f.write('N %s\n' % str(row))
 
-
-
 # converts text file to edge list and callbacks
-def parse(filename):
+def parse_graph(filename):
 
     callbacks = []
     edges = []
@@ -135,37 +133,18 @@ def parse(filename):
                 # invalid input
                 print("Error on line %d of file %s" % (line_number, filename))
                 return edges, callbacks
-    return edges, callbacks
 
-def test():
-    files = ['FSM-edge-list.txt']
-    graphs = []
-    for filename in files:
-        edges, callbacks = parse('../input/' + filename)
-        states = [u for u, v, w in edges] \
-               + [v for u, v, w in edges] \
-               + [s for s, c in callbacks]
-        symbols = []
-        flat_edges = []
-        for u, v, w in edges:
-            if isinstance(w, list):
-                symbols.extend(w)
-                flat_edges.extend((u, v, ww) for ww in w)
-            else:
-                symbols.append(w)
-                flat_edges.append((u, v, w))
-        try:
-            graphs.append(Graph(edges=flat_edges,
-                                callbacks=callbacks,
-                                states=states,
-                                symbols=symbols))
-        except Exception as e:
-            print('Error in file: ' + filename)
-            print(e)
-            return None
+    states = [u for u, v, w in edges] \
+           + [v for u, v, w in edges] \
+           + [s for s, c in callbacks]
+    symbols = []
+    flat_edges = []
+    for u, v, w in edges:
+        if isinstance(w, list):
+            symbols.extend(w)
+            flat_edges.extend((u, v, ww) for ww in w)
+        else:
+            symbols.append(w)
+            flat_edges.append((u, v, w))
 
-    for filename, graph in zip(files, graphs):
-        graph.to_file('../output/' + filename)
-
-    return graphs
-
+    return Graph(flat_edges, callbacks, states, symbols)

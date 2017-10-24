@@ -1,4 +1,17 @@
-#include "../compiler/tokenizer/tokenizer-core/cpp/FSM.cpp"
+/* test flags */
+#define DEBUG false
+
+/* relevant paths */
+#define TOKENIZER "../compiler/tokenizer/"
+#define CORE      "tokenizer-core/"
+#define FSMM      "finite-state-machine-maker/"
+#define OUTPUT    "output/"
+
+/* templates */
+#define STRING(s) #s
+
+/* start of program */
+#include  "FSM.cpp"
 
 #include <iostream>
 #include <fstream>
@@ -8,8 +21,14 @@
 #include <cstdlib>
 #include <vector>
 #include <regex>
-#define FSM_0_STANDARD_FILENAME "../compiler/tokenizer/finite-state-machine-maker/output/FSM-edge-list.txt"
 
+/* start of tests */
+
+/**
+ * Checks if FSM has one-character symbols.
+ * @param  fsm the finite state machine
+ * @return     true if test is passed
+ */
 bool test_fsm_one_character_symbols_only(const rainscript::FSM& fsm) {
     for (int i = 0; i < fsm.n_symbols; ++i)
         if (fsm.symbols[i].size() != 1)
@@ -17,28 +36,43 @@ bool test_fsm_one_character_symbols_only(const rainscript::FSM& fsm) {
     return true;
 }
 
-bool test_tokenize_1_remove_comments(std::string& program, const std::string& output_filename) {
-    static std::regex r_comments("//[^\n]*|/\\*(\\*(?!/)|[^\\*])*\\*/");
-    program = std::regex_replace(program, r_comments, "");
-    std::ofstream(("output/" + output_filename + "_test_tokenize_1_remove_comments.txt").c_str())
-        << program << std::flush;
+/**
+ * Checks if FSM has one-character symbols.
+ * @return     true if test is passed
+ */
+#define TEST_1 test_tokenize_remove_comments
+bool TEST_1(std::string& program, const std::string& output_filename) {
+
+    using std::regex;
+    using std::regex_replace;
+
+    // standard C-style comments regex (keep static, one instance)
+    static regex r_comments("//[^\n]*|/\\*(\\*(?!/)|[^\\*])*\\*/");
+
+    // remove all comments using regex
+    program = regex_replace(program, r_comments, "");
+
+#if DEBUG
+
+    using std::string;
+    using std::ofstream;
+    using std::flush;
+
+    // output contents of program to the OUTPUT folder after this test
+    string filename = OUTPUT + output_filename + "_" STRING(TEST_1) ".txt";
+    ofstream(filename.data()) << program << flush;
+
+#endif /* DEBUG */
+
     return true;
 }
 
-bool test_tokenize_2_collapse_whitespace(std::string& program, const std::string& output_filename) {
-    static std::regex r_endlines("\\s+");
-    program = std::regex_replace(program, r_endlines, " ");
-    if (program.size() == 0 || program.back() != ' ')
-        program.push_back(' '); // force sentinel whitespace
-    std::ofstream(("output/" + output_filename + "_test_tokenize_2_collapse_whitespace.txt").c_str())
-        << program << std::endl;
-    return true;
-}
+#define TEST_2 test_tokenize_fsm
+bool TEST_2(std::string& program, const std::string& output_filename) {
 
-bool test_tokenize_3_FSM_standard(std::string& program, const std::string& output_filename) {
-
+    // create FSM instance
     using namespace std;
-    rainscript::FSM fsm(FSM_0_STANDARD_FILENAME);
+    rainscript::FSM fsm(TOKENIZER CORE "fsm");
 
     if (!test_fsm_one_character_symbols_only(fsm))
         return false;
@@ -154,7 +188,7 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
     };
 
     // simulate FSM
-    ofstream fout(("output/" + output_filename + "_test_tokenize_3_FSM_standard.txt").c_str());
+    ofstream fout(("output/" + output_filename + "_" STRING(TEST_2) ".txt").c_str());
 
     int state = fsm.start_state;
     while (index < size) {
@@ -179,9 +213,8 @@ bool test_tokenize_3_FSM_standard(std::string& program, const std::string& outpu
 }
 
 bool test_tokenize(std::string program, const std::string& output_filename) {
-    return test_tokenize_1_remove_comments(program, output_filename)
-        // && test_tokenize_2_collapse_whitespace(program, output_filename)
-        && test_tokenize_3_FSM_standard(program, output_filename);
+    return TEST_1(program, output_filename)
+        && TEST_2(program, output_filename);
 }
 
 bool test_tokenize_file(const char input_filename[], const char output_filename[]) {

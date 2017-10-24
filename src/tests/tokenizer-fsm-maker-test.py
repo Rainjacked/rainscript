@@ -3,43 +3,20 @@
 def main():
 
     folder = '../compiler/tokenizer/finite-state-machine-maker/'
-    files = ['FSM-edge-list.txt']
+    description_file = folder + 'description.txt'
+    output_file = folder + '../tokenizer-core/fsm'
 
     import sys
-    sys.path.append(folder + 'py')
+    sys.path.append(folder)
     
-    from FSM import Graph, parse
+    from FSMM import parse_graph
 
-    graphs = []
-    for filename in files:
-        edges, callbacks = parse(folder + 'input/' + filename)
-        states = [u for u, v, w in edges] \
-               + [v for u, v, w in edges] \
-               + [s for s, c in callbacks]
-        symbols = []
-        flat_edges = []
-        for u, v, w in edges:
-            if isinstance(w, list):
-                symbols.extend(w)
-                flat_edges.extend((u, v, ww) for ww in w)
-            else:
-                symbols.append(w)
-                flat_edges.append((u, v, w))
-        print(filename + '...'),
-        try:
-            graphs.append(Graph(edges=flat_edges,
-                                callbacks=callbacks,
-                                states=states,
-                                symbols=symbols))
-            print('PASSED')
-        except Exception as e:
-            print('Error in file: ' + folder + 'input/' + filename)
-            print(e)
-            print('FAILED')
-            
-
-    for filename, graph in zip(files, graphs):
-        graph.to_file(folder + 'output/' + filename)
+    try:
+        parse_graph(description_file).to_file(output_file)
+        print('PASSED')
+    except Exception as e:
+        print(e)
+        print('FAILED')
 
 if __name__ == "__main__":
     main()
