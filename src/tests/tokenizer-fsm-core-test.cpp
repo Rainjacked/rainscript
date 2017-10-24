@@ -1,18 +1,8 @@
-/* test flags */
-#define DEBUG false
+/**
+ * Tokenizer tests.
+ */
 
-/* relevant paths */
-#define TOKENIZER "../compiler/tokenizer/"
-#define CORE      "tokenizer-core/"
-#define FSMM      "finite-state-machine-maker/"
-#define OUTPUT    "output/"
-
-/* templates */
-#define STRING(s) #s
-
-/* start of program */
-#include  "FSM.cpp"
-
+#include "tokenizer-core/fsm.cpp"
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -22,14 +12,22 @@
 #include <vector>
 #include <regex>
 
-/* start of tests */
+/* test flags */
+#define DEBUG true
+#define STRING(s) #s
+
+/* relevant paths */
+#define TOKENIZER "../compiler/tokenizer/"
+#define CORE      "tokenizer-core/"
+#define FSMM      "finite-state-machine-maker/"
+#define OUTPUT    "output/"
 
 /**
  * Checks if FSM has one-character symbols.
  * @param  fsm the finite state machine
  * @return     true if test is passed
  */
-bool test_fsm_one_character_symbols_only(const rainscript::FSM& fsm) {
+bool test_fsm_one_character_symbols_only(const rainscript::fsm& fsm) {
     for (int i = 0; i < fsm.n_symbols; ++i)
         if (fsm.symbols[i].size() != 1)
             return false;
@@ -72,7 +70,7 @@ bool TEST_2(std::string& program, const std::string& output_filename) {
 
     // create FSM instance
     using namespace std;
-    rainscript::FSM fsm(TOKENIZER CORE "fsm");
+    rainscript::fsm fsm(TOKENIZER CORE "fsm");
 
     if (!test_fsm_one_character_symbols_only(fsm))
         return false;
@@ -187,9 +185,9 @@ bool TEST_2(std::string& program, const std::string& output_filename) {
         }
     };
 
-    // simulate FSM
-    ofstream fout(("output/" + output_filename + "_" STRING(TEST_2) ".txt").c_str());
 
+    // simulate FSM
+    bool status = true;
     int state = fsm.start_state;
     while (index < size) {
         // push to buffer
@@ -198,17 +196,21 @@ bool TEST_2(std::string& program, const std::string& output_filename) {
         // jump to next state
         int symbol = ascii_index[ch];
         if (symbol == -1 || !fsm.next(state, symbol, handler)) {
-            print(fout);
-            delete[] ascii_index;
-            return false;
+            status = false;
+            break;
         }
     }
 
     delete[] ascii_index;
 
-    // everything ok
+#if DEBUG
+
+    ofstream fout((OUTPUT + output_filename + "_" STRING(TEST_2) ".txt").c_str());
     print(fout);
-    return true;
+
+#endif /* DEBUG */
+
+    return status;
 
 }
 

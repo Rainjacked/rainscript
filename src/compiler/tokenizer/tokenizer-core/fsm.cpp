@@ -1,5 +1,5 @@
-#ifndef __rainscript_include_FSM
-#define __rainscript_include_FSM
+#ifndef __rainscript_include_fsm
+#define __rainscript_include_fsm
 
 #include <iostream>
 #include <fstream>
@@ -10,7 +10,7 @@
 namespace rainscript {
 
     using namespace std;
-    struct FSM {
+    struct fsm {
 
         int n_states;
         int n_symbols;
@@ -55,7 +55,7 @@ namespace rainscript {
         /**
          * Constructs a finite state machine given description from a file.
          */
-        FSM(const char filename[]) {
+        fsm(const char filename[]) {
 
             static string buffer;
             ifstream fin(filename);
@@ -95,7 +95,7 @@ namespace rainscript {
                 getline(fin, symbols[i], '\0');
             }
 
-            // allocate null pointers and FSM adjacency matrix
+            // allocate null pointers and fsm adjacency matrix
             null = new int[n_states];
             matrix = new int*[n_states];
 
@@ -122,7 +122,7 @@ namespace rainscript {
         /**
          * Garbage collection of this finite state machine.
          */
-        ~FSM() {
+        ~fsm() {
             return;
             for (int i = 0; i < n_states; ++i) {
                 if (callbacks[i] != NULL)
@@ -143,4 +143,4 @@ namespace rainscript {
 
 }
 
-#endif
+#endif /* __rainscript_include_fsm */

@@ -9,7 +9,7 @@ def main():
     import sys
     sys.path.append(folder)
     
-    from FSMM import parse_graph
+    from fsmm import parse_graph
 
     try:
         parse_graph(description_file).to_file(output_file)
