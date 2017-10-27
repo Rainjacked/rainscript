@@ -12,17 +12,17 @@ export class BaseParser {
     let warnings = new LinkedList();
     let environment = new Environment();
     // getters
-    this.errors = () => errors;
-    this.warning = () => warnings;
+    this.errors = errors;
+    this.warning = warnings;
     // adds a new error
     this.error = (message) => {
-      errors = errors.push([this.line, message]);
-      return errors;
+      this.errors = this.errors.push([this.line, message]);
+      return this.errors;
     };
     // adds a new warning
     this.warning = (message) => {
-      warnings = warnings.push([this.line, message]);
-      return warnings;
+      this.warnings = this.warnings.push([this.line, message]);
+      return this.warnings;
     };
     // adds a new key-value pair to environment
     this.environment = () => environment;

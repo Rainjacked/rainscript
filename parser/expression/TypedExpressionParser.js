@@ -62,7 +62,51 @@ export class TypedExpressionParser {
     ];
     // create base case for typed expression
     let expression = () => {
-      return this.typedParenthesisExpression() || this.typedData();
+      let result = this.typedParenthesisExpression() || this.typedData();
+      if (result === undefined) return undefined;
+      let checkpoint = this.index;
+      this.whitespace();
+      // check for post-group operators
+      if (this.peek() == '(') {
+        // perform embed operation
+        if (result[1] === 'string') {
+          let args = this.argumentListExpression();
+          if (args !== null) {
+            return {
+              _id: 'embed',
+              text: result[0],
+              args: args
+            };
+          }
+        } else {
+          this.error('no definition for <' + result[1] + '> (...)');
+        }
+      } else if (this.character('[')) {
+        // slice
+        if (result[1] === 'string') {
+          let slice = this.sliceExpression();
+          if (slice !== null && this.character(']')) {
+            return [{
+              _id: 'op',
+              operator: '[]',
+              operands: [result[0], slice]
+            }, 'string'];
+          }
+        }
+        // TODO: add slice for non-string in the future
+      } else if (this.character('<')) {
+        // type cast
+        let type = this.dataType();
+        if (type !== null && this.character('>')) {
+          return [{
+            _id: 'op',
+            operator: '<>',
+            operands: [type, result[0]]
+          }, type];
+        }
+      }
+      this.undo(this.index - checkpoint);
+      return result;
     };
     // incrementally wrap expression parser depending on order of operations
     for (let unaryOperations of orderOfUnaryOperations) {
@@ -109,6 +153,7 @@ export class TypedExpressionParser {
   typedParenthesisExpression () {
     let checkpoint = this.index;
     if (this.character('(')) {
+      this.whitespace();
       let result = this.typedExpression();
       if (this.character(')')) {
         return result;
