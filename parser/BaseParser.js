@@ -1,4 +1,5 @@
 import { LinkedList, Environment } from '../util';
+
 export class BaseParser {
   /**
    * Constructs this BaseParser.
@@ -29,6 +30,7 @@ export class BaseParser {
       return environment;
     };
   }
+
   /**
    * Retrace a number of steps (default: 1).
    * @param {int} steps the number of steps to retrace
@@ -49,6 +51,16 @@ export class BaseParser {
   peek () {
     return this.index < this.buffer.length
       ? this.buffer[this.index]
+      : undefined;
+  }
+
+  /**
+   * Gets the next character in the buffer,
+   * or undefined if EOF.
+   */
+  next () {
+    return this.index < this.buffer.length
+      ? this.buffer[++this.index]
       : undefined;
   }
 
@@ -80,5 +92,16 @@ export class BaseParser {
       }
     }
     return text;
+  }
+
+  /**
+   * Checks if next token is whitespace, or undefined otherwise.
+   */
+  whitespace () {
+    let buffer = '';
+    if (/\s/.test(this.peek())) {
+      buffer.push(this.get());
+    }
+    return buffer.length > 0 ? buffer : undefined;
   }
 }

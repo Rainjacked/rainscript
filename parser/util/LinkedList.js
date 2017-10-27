@@ -1,5 +1,4 @@
 export class LinkedList {
-
   /**
    * Constructs a new linked list based on data
    * from another linked list.

@@ -40,6 +40,7 @@
     "mocha": "^3.5.1"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "safe-eval": "^0.3.0"
   }
 }
