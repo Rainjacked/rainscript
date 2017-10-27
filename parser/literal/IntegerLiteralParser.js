@@ -11,7 +11,7 @@ export class IntegerLiteralParser {
   /**
    * Checks if next token is an integer literal.
    */
-  integer () {
+  integerLiteral () {
     let result = this.integerDecimal();
     if (result === undefined) {
       result = this.integerOctal();

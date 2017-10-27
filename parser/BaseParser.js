@@ -25,10 +25,7 @@ export class BaseParser {
       return warnings;
     };
     // adds a new key-value pair to environment
-    this.environment = (key, value) => {
-      environment = environment.push(key, value);
-      return environment;
-    };
+    this.environment = () => environment;
   }
 
   /**

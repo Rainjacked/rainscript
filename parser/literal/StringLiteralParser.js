@@ -12,7 +12,7 @@ export class StringLiteralParser {
   /**
    * Checks if next token is a single- or double-quoted string literal.
    */
-  quotedStringLiteral () {
+  stringLiteral () {
     return this.singleQuotedStringLiteral() || this.doubleQuotedStringLiteral();
   }
 
