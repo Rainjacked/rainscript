@@ -37,7 +37,7 @@ export class StringLiteralParser {
           } else {
             if (this.character('\n')) {
               trim = true;
-              string = string.trimRight();
+              string = string.trimRight() + ' ';
             } else if (!(trim && this.whitespace())) {
               trim = false;
               string += this.get();
@@ -78,7 +78,7 @@ export class StringLiteralParser {
           } else {
             if (this.character('\n')) {
               trim = true;
-              string = string.trimRight();
+              string = string.trimRight() + ' ';
             } else if (!(trim && this.whitespace())) {
               trim = false;
               string += this.get();
