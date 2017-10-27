@@ -1,4 +1,4 @@
-import { StringLiteraParser } from '.';
+import { StringLiteraParser, IntegerLiteralParser } from '.';
 
 export class LiteralParser {
   /**
@@ -8,6 +8,7 @@ export class LiteralParser {
   constructor (parser) {
     // require other parsers
     parser = new StringLiteraParser(parser);
-    Object.assign(this, parser || {});
+    parser = new IntegerLiteralParser(parser);
+    Object.assign(this, parser);
   }
 }
