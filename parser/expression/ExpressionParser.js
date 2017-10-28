@@ -63,4 +63,24 @@ export class ExpressionParser {
     }
     return this.undo(this.index - checkpoint);
   }
+
+  /**
+   * Checks if variable or parenthesized variable.
+   */
+  variableExpression () {
+    let checkpoint = this.index;
+    if (this.character('(')) {
+      let variable = this.variableExpression();
+      if (variable !== undefined) {
+        if (this.character(')')) {
+          return variable;
+        }
+        this.error('expected closing parenthesis \')\' in variable expression');
+      }
+    } else {
+      let variable = this.variable();
+      if (variable !== undefined) return variable;
+    }
+    return this.undo(this.index - checkpoint);
+  }
 }

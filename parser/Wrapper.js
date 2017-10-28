@@ -39,4 +39,19 @@ export class Wrapper {
       commands: commands
     };
   }
+
+  dereference (varname) {
+    return {
+      _id: 'ref',
+      varname: varname
+    };
+  }
+
+  input (variable) {
+    return {
+      _id: 'directive',
+      name: 'input',
+      var: this.dereference(variable)
+    };
+  }
 }
