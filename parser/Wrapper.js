@@ -14,4 +14,13 @@ export class Wrapper {
       operands: [value]
     };
   }
+
+  conditional (name, condition, commands) {
+    return {
+      _id: 'directive',
+      name: name,
+      condition: condition,
+      commands: commands
+    };
+  }
 }
