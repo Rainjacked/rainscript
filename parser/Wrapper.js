@@ -77,4 +77,15 @@ export class Wrapper {
       args: args
     };
   }
+
+  speech (statement, _speech) {
+    statement.args._speech = _speech;
+    return statement;
+  }
+
+  narration (text) {
+    return this.statement('', {
+      _speech: text
+    });
+  }
 }

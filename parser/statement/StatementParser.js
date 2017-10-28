@@ -3,7 +3,8 @@ const CONTENT = /[a-zA-Z0-9_]/;
 const SPLIT = /[.-:]/;
 export class StatementParser {
   statement () {
-    return this.speech() || this.exclamation() || this.effect();
+    return this.speech() || this.exclamation() || this.effect() ||
+      this.narration();
   }
   /**
    * Checks if valid exclamation statement.
