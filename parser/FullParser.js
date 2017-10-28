@@ -56,7 +56,7 @@ export class FullParser {
     if (mainEvent === undefined) {
       this.error('main event [[' + basename + ']] not found');
     }
-    return this.wrapper.transpile(mainEvent, subEvents);
+    return this.transpilerFormat().eventFile(mainEvent, subEvents);
   }
 
   /**

@@ -1,4 +1,4 @@
-export class Wrapper {
+export class TranspilerOutputFormat {
   typeCast (value, type) {
     return {
       _id: 'op',
@@ -89,7 +89,7 @@ export class Wrapper {
     });
   }
 
-  transpile (mainEvent, subEvents) {
+  eventFile (mainEvent, subEvents) {
     return {
       main: mainEvent,
       sub: subEvents
