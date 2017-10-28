@@ -2,7 +2,7 @@ export class ConditionalDirectiveParser {
   /**
    * Checks if next token is a fully valid if-directive.
    */
-  ifDirective () {
+  conditionalDirective () {
     let checkpoint = this.index;
     let ifBlock = this.ifBlock();
     if (ifBlock !== undefined) {
