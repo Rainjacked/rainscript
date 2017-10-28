@@ -9,6 +9,9 @@ export class StringLiteralParser {
    * @param {String} string the string literal to embed
    */
   embedIfPossible (string) {
+    if (!(string instanceof String)) {
+      return undefined;
+    }
     let matches = unique(string.matches(VARIABLE_EMBED_REGEX)
       .map(s => s.slice(1, -1)));
     if (matches.length === 0) {

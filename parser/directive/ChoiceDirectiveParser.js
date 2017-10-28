@@ -36,8 +36,9 @@ export class ChoiceDirectiveParser {
     let checkpoint = this.index;
     if (this.phrase('=>')) {
       let block = this.environment;
-      let label = this.atomicPhrase(/\n/); // todo: if embeddable
+      let label = this.atomicPhrase(/\n/);
       if (label !== undefined) {
+        label = this.embedIfPossible(label);
         this.whitespace();
         let body = this.eventBody();
         if (body !== undefined) {
