@@ -1,4 +1,7 @@
 export class SliceExpressionParser {
+  /**
+   * Checks if expression is a slice.
+   */
   sliceExpression () {
     let checkpoint = this.index;
     if (this.character('[')) {
