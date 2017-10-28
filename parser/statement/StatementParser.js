@@ -61,6 +61,8 @@ export class StatementParser {
         }
       }
       if (split) {
+        this.undo(1);
+        buffer = buffer.slice(0, -1);
         this.warning('uncontinued statement name');
       }
       return buffer.trim();

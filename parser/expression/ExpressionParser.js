@@ -78,7 +78,7 @@ export class ExpressionParser {
         this.error('expected closing parenthesis \')\' in variable expression');
       }
     } else {
-      let variable = this.variable();
+      let variable = this.variableDereference();
       if (variable !== undefined) return variable;
     }
     return this.undo(this.index - checkpoint);

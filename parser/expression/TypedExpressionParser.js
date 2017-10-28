@@ -58,7 +58,7 @@ export class TypedExpressionParserTemplate {
     if (value !== undefined) {
       return [value, 'flag'];
     }
-    value = this.dereference();
+    value = this.variableDereference();
     if (value !== undefined) {
       return [value, this.environment().lookup(value.name)];
     }
