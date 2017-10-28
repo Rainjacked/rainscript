@@ -41,7 +41,9 @@
   },
   "dependencies": {
     "array-unique": "^0.3.2",
+    "fs": "0.0.1-security",
     "lodash": "^4.17.4",
+    "path": "^0.12.7",
     "safe-eval": "^0.3.0"
   }
 }

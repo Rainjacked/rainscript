@@ -88,4 +88,11 @@ export class Wrapper {
       _speech: text
     });
   }
+
+  transpile (mainEvent, subEvents) {
+    return {
+      main: mainEvent,
+      sub: subEvents
+    };
+  }
 }
