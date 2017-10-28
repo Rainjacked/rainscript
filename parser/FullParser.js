@@ -12,8 +12,6 @@ export class FullParser {
   constructor () {
     // copy contents from template
     Object.assign(this, FullParserTemplate);
-    // create buffer
-    this.replace();
   }
 
   /**

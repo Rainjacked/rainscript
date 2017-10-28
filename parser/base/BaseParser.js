@@ -4,6 +4,12 @@ import { Environment } from '../util/Environment';
 
 export class BaseParser {
   /**
+   * Construct BaseParser with an empty buffer.
+   */
+  constructor () {
+    this.replace();
+  }
+  /**
    * Adds a new error.
    * @param {*} message 
    */
