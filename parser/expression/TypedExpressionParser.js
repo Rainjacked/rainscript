@@ -51,6 +51,7 @@ export class TypedExpressionParserTemplate {
     }
     value = this.stringLiteral();
     if (value !== undefined) {
+      // embed this string if possible
       return [value, 'string'];
     }
     value = this.flagLiteral();

@@ -1,19 +1,39 @@
+import { VARIABLE_EMBED_REGEX } from '../variable/Constants';
+
 const safeEval = require('safe-eval');
+const unique = require('array-unique').immutable;
 
 export class StringLiteralParser {
   /**
-   * Decorates a parser with string literal parser.
-   * @param {*} parser 
+   * Embeds a string literal with variables if possible
+   * @param {String} string the string literal to embed
    */
-  constructor (parser) {
-    Object.assign(this, parser || {});
+  embedIfPossible (string) {
+    let matches = unique(string.matches(VARIABLE_EMBED_REGEX)
+      .map(s => s.slice(1, -1)));
+    if (matches.length === 0) {
+      let args = {};
+      for (let match of matches) {
+        // make sure variable name exists in environment
+        if (this.environment.lookup(match) === undefined) {
+          this.warning('variable \'' + match +
+            '\' is not defined, will not be embedded');
+        } else {
+          args[match] = this.wrapper.dereference(match);
+        }
+      }
+      return this.wrapper.embed(string, args);
+    }
+    return string;
   }
 
   /**
    * Checks if next token is a single- or double-quoted string literal.
    */
   stringLiteral () {
-    return this.singleQuotedStringLiteral() || this.doubleQuotedStringLiteral();
+    return this.embedIfPossible(
+      this.singleQuotedStringLiteral() || this.doubleQuotedStringLiteral()
+    );
   }
 
   /**

@@ -1,14 +1,5 @@
 export class IntegerLiteralParser {
   /**
-   * Decorates a parser with an integer literal parser.
-   * @param {*} parser 
-   */
-  constructor (parser) {
-    // require other parsers
-    Object.assign(this, parser || {});
-  }
-
-  /**
    * Checks if next token is an integer literal.
    */
   integerLiteral () {

@@ -1,14 +1,5 @@
 export class AtomicParser {
   /**
-   * Decorates a parser with an atomic literal parser.
-   * @param {*} parser 
-   */
-  constructor (parser) {
-    // require other parsers
-    Object.assign(this, parser || {});
-  }
-
-  /**
    * Parses an atomic phrase, given a set of regex delimiters.
    */
   atomicPhrase (delimiters) {
