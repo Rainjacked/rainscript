@@ -33,14 +33,14 @@ export class StringLiteralParser {
           if (escape && this.character('{')) {
             string += '\\{';
           } else if (escape) {
-            string += this.get();
+            string += this.next();
           } else {
             if (this.character('\n')) {
               trim = true;
               string = string.trimRight() + ' ';
             } else if (!(trim && this.whitespace())) {
               trim = false;
-              string += this.get();
+              string += this.next();
             }
           }
           escape = false;
@@ -74,14 +74,14 @@ export class StringLiteralParser {
           if (escape && this.character('{')) {
             string += '\\{';
           } else if (escape) {
-            string += this.get();
+            string += this.next();
           } else {
             if (this.character('\n')) {
               trim = true;
               string = string.trimRight() + ' ';
             } else if (!(trim && this.whitespace())) {
               trim = false;
-              string += this.get();
+              string += this.next();
             }
           }
           escape = false;

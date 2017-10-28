@@ -98,7 +98,7 @@ export class BaseParser {
   whitespace () {
     let buffer = '';
     if (/\s/.test(this.peek())) {
-      buffer.push(this.get());
+      buffer.push(this.next());
     }
     return buffer.length > 0 ? buffer : undefined;
   }

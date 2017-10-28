@@ -16,9 +16,10 @@ export class AtomicParser {
     let buffer = '';
     let trim = false;
     while (this.peek() !== undefined && !delimiters.test(this.peek())) {
-      if (trim && /\s/.test(this.get())) {
+      if (trim && /\s/.test(this.peek())) {
         // note: don't use this.whitespace(),
         // might conflict on a whitespace delimiter
+        this.next();
         continue;
       }
       if (this.character('\n')) {

@@ -31,9 +31,9 @@ export class IntegerLiteralParser {
    */
   integerDecimal () {
     if (/[1-9]/.test(this.peek())) {
-      let value = this.get();
+      let value = this.next();
       while (/[0-9]/.test(this.peek())) {
-        value += this.get();
+        value += this.next();
       }
       value = parseInt(value);
       if (value >= (1 << 31)) {
@@ -52,7 +52,7 @@ export class IntegerLiteralParser {
     if (this.character('0')) {
       let value = 0;
       while (/[0-7]/.test(this.peek())) {
-        value = (value << 3) | parseInt(this.get());
+        value = (value << 3) | parseInt(this.next());
       }
       if (value >= (1 << 31)) {
         this.warning('integer literal overflow');
@@ -70,7 +70,7 @@ export class IntegerLiteralParser {
     if (this.phrase('0x') || this.phrase('0X')) {
       let value = '0x';
       while (/[0-7]/.test(this.peek())) {
-        value += this.get();
+        value += this.next();
       }
       value = parseInt(value);
       if (value >= (1 << 31)) {
@@ -89,7 +89,7 @@ export class IntegerLiteralParser {
     if (this.phrase('0b') || this.phrase('0B')) {
       let value = 0;
       while (/[01]/.test(this.peek())) {
-        value = (value << 1) | parseInt(this.get());
+        value = (value << 1) | parseInt(this.next());
       }
       if (value >= (1 << 31)) {
         this.warning('integer literal overflow');

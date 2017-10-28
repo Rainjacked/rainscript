@@ -62,4 +62,11 @@ export class Wrapper {
       value: expression
     };
   }
+
+  event (name, body) {
+    return {
+      name: name,
+      commands: body
+    };
+  }
 }
