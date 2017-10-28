@@ -54,4 +54,12 @@ export class Wrapper {
       var: this.dereference(variable)
     };
   }
+
+  print (expression) {
+    return {
+      _id: 'directive',
+      name: 'print',
+      value: expression
+    };
+  }
 }
