@@ -12,7 +12,7 @@ export class TypedExpressionParser {
       '*,int,string': 'string',
       '*,string,int': 'string',
       '+,string,string': 'string',
-      'to,int,int': null
+      'to,int,int': 'range' // special type
     };
     // logical operators return flag, with truthy/falsey int values
     let logical = ['or', 'nor', 'xor', 'and', 'nand',
