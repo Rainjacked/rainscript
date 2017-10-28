@@ -4,7 +4,7 @@
   "description": "A scripting language designed for game story writers.",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js lib/** tests/** && mocha tests",
+    "test": "eslint index.js lib/** tests/** && mocha --compilers js:babel-core/register tests",
     "fix": "eslint index.js lib/** tests/** --fix"
   },
   "repository": {
@@ -21,6 +21,11 @@
     "visual",
     "novel"
   ],
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
   "author": "Rainjacked",
   "license": "MIT",
   "bugs": {
@@ -28,6 +33,8 @@
   },
   "homepage": "https://github.com/Rainjacked/rainscript#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
     "eslint": "^4.6.1",
     "eslint-config-semistandard": "^11.0.0",
@@ -41,6 +48,7 @@
   },
   "dependencies": {
     "array-unique": "^0.3.2",
+    "babel-register": "^6.26.0",
     "fs": "0.0.1-security",
     "lodash": "^4.17.4",
     "path": "^0.12.7",
