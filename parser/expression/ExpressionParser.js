@@ -19,30 +19,36 @@ export class ExpressionParser {
    * Checks if next token is a valid string expression.
    */
   stringExpression () {
+    let checkpoint = this.index;
     let result = this.typedExpression();
-    return result === undefined || result[1] !== 'string'
-      ? undefined
-      : result[0];
+    if (result !== undefined && result[1] === 'string') {
+      return result[0];
+    }
+    return this.undo(this.index - checkpoint);
   }
 
   /**
    * Checks if next token is a valid flag expression.
    */
   flagExpression () {
+    let checkpoint = this.index;
     let result = this.typedExpression();
-    return result === undefined || result[1] !== 'flag'
-      ? undefined
-      : result[0];
+    if (result !== undefined && result[1] === 'flag') {
+      return result[0];
+    }
+    return this.undo(this.index - checkpoint);
   }
 
   /**
    * Checks if next token is a valid truthy/falsey expression.
    */
   integerExpression () {
+    let checkpoint = this.index;
     let result = this.typedExpression();
-    return result === undefined || result[1] !== 'int'
-      ? undefined
-      : result[0];
+    if (result !== undefined && result[1] === 'int') {
+      return result[0];
+    }
+    return this.undo(this.index - checkpoint);
   }
 
   /**
@@ -50,9 +56,11 @@ export class ExpressionParser {
    * the only truthy/falsey expressions are of type 'int' and 'flag'.
    */
   truthyFalseyExpression () {
+    let checkpoint = this.index;
     let result = this.typedExpression();
-    return result === undefined || (result[1] !== 'flag' && result[1] !== 'int')
-      ? undefined
-      : result[0];
+    if (result !== undefined && (result[1] === 'int' || result[1] === 'flag')) {
+      return result[0];
+    }
+    return this.undo(this.index - checkpoint);
   }
 }
