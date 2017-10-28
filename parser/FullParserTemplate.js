@@ -21,6 +21,7 @@ import { IntegerLiteralParser } from './literal/IntegerLiteralParser';
 import { StringLiteralParser } from './literal/StringLiteralParser';
 import { StatementParser, SpeechParser } from './statement/SpeechParser';
 import { VariableParser } from './variable/VariableParser';
+import { TranspilerOutputFormat } from './TranspilerOutputFormat';
 
 const include = [
   // base
@@ -52,6 +53,10 @@ const include = [
 
 export const FullParserTemplate = class FullParserTemplate {
   constructor () {
+    // include transpiler format
+    let transpilerFormat = new TranspilerOutputFormat();
+    this.transpilerFormat = () => transpilerFormat; // getter
+    // register the parsers from include
     let self = this;
     include.forEach(Parser => {
       Object.assign(self, new Parser());
