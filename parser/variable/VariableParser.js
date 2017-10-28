@@ -1,4 +1,7 @@
 import {
+  VARIABLE_PREFIX_LOCAL,
+  VARIABLE_PREFIX_PARAM,
+  VARIABLE_PREFIX_GLOBAL,
   VARIABLE_START_REGEX,
   VARIABLE_CONTENT_REGEX,
   VARIABLE_SPLIT_REGEX
@@ -9,11 +12,58 @@ export class VariableParser {
    * Checks a dereferenced variable name.
    */
   variableDereference () {
-    let name = this.variableName();
-    if (name !== undefined) {
+    let variable = this.variable();
+    if (variable !== undefined) {
       return this.wrapper.dereference(name);
     }
     return undefined;
+  }
+  /**
+   * Checks for next variable.
+   */
+  variable () {
+    return this.globalVariable() ||
+      this.localVariable() ||
+      this.paramVariable();
+  }
+  /**
+   * Checks if next variable is a local variable.
+   */
+  localVariable () {
+    let checkpoint = this.index;
+    if (this.character(VARIABLE_PREFIX_LOCAL)) {
+      let name = this.variableName();
+      if (name !== undefined) {
+        return VARIABLE_PREFIX_LOCAL + name;
+      }
+    }
+    return this.undo(this.index - checkpoint);
+  }
+  /**
+   * Checks if next variable is a param variable.
+   */
+  paramVariable () {
+    let checkpoint = this.index;
+    if (this.character(VARIABLE_PREFIX_PARAM)) {
+      let name = this.variableName();
+      if (name !== undefined) {
+        return VARIABLE_PREFIX_PARAM + name;
+      }
+    }
+    return this.undo(this.index - checkpoint);
+  }
+  /**
+   * Checks if next variable is a global variable.
+   */
+  globalVariable () {
+    let checkpoint = this.index;
+    if (this.character(VARIABLE_PREFIX_GLOBAL)) {
+      let name = this.variableName();
+      if (name !== undefined) {
+        return VARIABLE_PREFIX_GLOBAL + name;
+      }
+    }
+    return this.undo(this.index - checkpoint);
   }
   /**
    * Checks if next token is a valid variable name.
@@ -22,7 +72,7 @@ export class VariableParser {
     let checkpoint = this.index;
     if (VARIABLE_START_REGEX.test(this.peek())) {
       let name = this.next();
-      let split = false;
+      let split = true;
       while (true) {
         if (VARIABLE_CONTENT_REGEX.test(this.peek())) {
           name += this.next();

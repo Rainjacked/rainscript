@@ -60,7 +60,7 @@ export class TypedExpressionParserTemplate {
     }
     value = this.variableDereference();
     if (value !== undefined) {
-      return [value, this.environment().lookup(value.name)];
+      return [value, this.environment.lookup(value.name)];
     }
     return undefined;
   }

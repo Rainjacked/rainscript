@@ -48,7 +48,7 @@ export class StatementParser {
     let checkpoint = this.index;
     if (START.test(this.peek())) {
       let buffer = this.next();
-      let split = false;
+      let split = true;
       while (true) {
         if (CONTENT.test(this.peek())) {
           buffer += this.next();

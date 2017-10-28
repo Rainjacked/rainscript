@@ -8,13 +8,7 @@ export class BaseParser {
    */
   constructor (wrapper) {
     this.wrapper = wrapper || new Wrapper();
-    this.buffer = '';
-    this.index = 0;
-    this.line = 1;
-    let environment = new Environment();
-    // getters
-    this.errors = new LinkedList();
-    this.warning = new LinkedList();
+    this.replace('');
     // adds a new error
     this.error = (message) => {
       this.errors = this.errors.push([this.line, message]);
@@ -25,8 +19,47 @@ export class BaseParser {
       this.warnings = this.warnings.push([this.line, message]);
       return this.warnings;
     };
-    // adds a new key-value pair to environment
-    this.environment = () => environment;
+  }
+
+  /**
+   * Appends new information to the buffer. Flowable.
+   * @param {*} buffer the new information to append
+   */
+  append (buffer) {
+    this.buffer += buffer;
+    return this;
+  }
+
+  /**
+   * Replaces the parser's buffer. Flowable.
+   * @param {*} buffer the new buffer to replace with
+   */
+  replace (buffer) {
+    this.buffer = buffer || '';
+    this.index = 0;
+    this.line = 1;
+    this.errors = new LinkedList();
+    this.warning = new LinkedList();
+    this.environment = new Environment();
+    return this;
+  }
+
+  /**
+   * Adds a new error.
+   * @param {*} message 
+   */
+  error (message) {
+    this.errors.push([this.line, message]);
+    return this.errors;
+  }
+
+  /**
+   * Adds a new warning.
+   * @param {*} message 
+   */
+  warning (message) {
+    this.warnings.push([this.line, message]);
+    return this.warnings;
   }
 
   /**
