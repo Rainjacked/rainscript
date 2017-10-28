@@ -1,4 +1,4 @@
-export class AtomicLiteralParser {
+export class AtomicParser {
   /**
    * Decorates a parser with an atomic literal parser.
    * @param {*} parser 
@@ -15,7 +15,7 @@ export class AtomicLiteralParser {
     let checkpoint = this.index;
     let buffer = '';
     let trim = false;
-    while (!delimiters.test(this.peek())) {
+    while (this.peek() !== undefined && !delimiters.test(this.peek())) {
       if (trim && /\s/.test(this.get())) {
         // note: don't use this.whitespace(),
         // might conflict on a whitespace delimiter
