@@ -23,4 +23,20 @@ export class Wrapper {
       commands: commands
     };
   }
+
+  choice (preamble, routes) {
+    return {
+      _id: 'directive',
+      name: 'choice',
+      preamble: preamble,
+      choices: routes
+    };
+  }
+
+  choiceRoute (label, commands) {
+    return {
+      label: label,
+      commands: commands
+    };
+  }
 }
