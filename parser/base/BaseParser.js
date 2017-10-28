@@ -1,49 +1,4 @@
-import { LinkedList } from '../util/LinkedList';
-import { Environment } from '../util/Environment';
-import { Wrapper } from './Wrapper';
-
 export class BaseParser {
-  /**
-   * Constructs this BaseParser.
-   */
-  constructor (wrapper) {
-    this.wrapper = wrapper || new Wrapper();
-    this.replace('');
-    // adds a new error
-    this.error = (message) => {
-      this.errors = this.errors.push([this.line, message]);
-      return this.errors;
-    };
-    // adds a new warning
-    this.warning = (message) => {
-      this.warnings = this.warnings.push([this.line, message]);
-      return this.warnings;
-    };
-  }
-
-  /**
-   * Appends new information to the buffer. Flowable.
-   * @param {*} buffer the new information to append
-   */
-  append (buffer) {
-    this.buffer += buffer;
-    return this;
-  }
-
-  /**
-   * Replaces the parser's buffer. Flowable.
-   * @param {*} buffer the new buffer to replace with
-   */
-  replace (buffer) {
-    this.buffer = buffer || '';
-    this.index = 0;
-    this.line = 1;
-    this.errors = new LinkedList();
-    this.warning = new LinkedList();
-    this.environment = new Environment();
-    return this;
-  }
-
   /**
    * Adds a new error.
    * @param {*} message 

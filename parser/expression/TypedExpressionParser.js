@@ -1,6 +1,6 @@
 import { OperatorFactory } from '../operator/OperatorFactory';
 
-export class TypedExpressionParserTemplate {
+export class TypedExpressionParser {
   constructor () {
     let expression = () => {
       let result = this.typedParenthesisExpression() || this.typedData();

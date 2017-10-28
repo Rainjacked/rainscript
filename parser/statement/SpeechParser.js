@@ -1,4 +1,4 @@
-export class StatementParser {
+export class SpeechParser {
   /**
    * Checks if next token is a speech dialogue.
    */
