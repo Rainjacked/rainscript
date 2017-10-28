@@ -51,7 +51,7 @@ export class Wrapper {
     return {
       _id: 'directive',
       name: 'input',
-      var: this.dereference(variable)
+      var: variable !== null ? this.dereference(variable) : null
     };
   }
 
@@ -67,6 +67,14 @@ export class Wrapper {
     return {
       name: name,
       commands: body
+    };
+  }
+
+  statement (name, args) {
+    return {
+      _id: 'statement',
+      name: name,
+      args: args
     };
   }
 }
