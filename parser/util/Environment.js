@@ -1,4 +1,4 @@
-import { LinkedList } from '.';
+import { LinkedList } from './LinkedList';
 
 /**
  * A special key-value pair linked list that can

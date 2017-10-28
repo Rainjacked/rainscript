@@ -1,4 +1,86 @@
-export class ExpressionParserFactor {
+export class OperatorFactory {
+  constructor () {
+    /* setup functions via factory */
+    // special binary operators here
+    this.binaryOperations = {
+      '*,int,string': 'string',
+      '*,string,int': 'string',
+      '+,string,string': 'string',
+      'to,int,int': 'range' // special type
+    };
+    // logical operators return flag, with truthy/falsey int values
+    this.logicalOperations = ['or', 'nor', 'xor', 'and', 'nand',
+      '<', '>', '<=', '>=', '=', '!=', '&', '|', '^'];
+    for (let op of this.logicalOperations) {
+      this.binaryOperations[[op, 'flag', 'flag']] =
+      this.binaryOperations[[op, 'flag', 'int']] =
+      this.binaryOperations[[op, 'int', 'flag']] =
+      this.binaryOperations[[op, 'int', 'int']] = 'flag';
+    }
+    // relational operators always return flag
+    this.relationalOperations = ['<', '>', '<=', '>=', '=', '!='];
+    for (let op of this.relationalOperations) {
+      this.binaryOperations[[op, 'flag', 'flag']] =
+      this.binaryOperations[[op, 'int', 'int']] =
+      this.binaryOperations[[op, 'string', 'string']] = 'flag';
+    }
+    // arithmetic operators return int
+    this.arithmeticOperations = ['&', '|', '^', '<<', '>>', '+', '-', '*', '/'];
+    for (let op of this.arithmeticOperations) {
+      this.binaryOperations[[op, 'int', 'int']] = 'int';
+    }
+    this.unaryOperations = {
+      '+,int': 'int',
+      '-,int': 'int',
+      '~,int': 'int',
+      '~,flag': 'flag',
+      'not,int': 'flag',
+      'not,flag': 'flag'
+    };
+    // use this list to define order of binary operations for expression parser
+    this.orderOfBinaryOperations = [
+      [' or ', ' nor '],
+      [' xor '],
+      [' and ', ' nand '],
+      ['<', '<=', '>', '>=', '=', '!='], // TODO: relational chains
+      [' to '],
+      ['|'],
+      ['^'],
+      ['&'],
+      ['>>', '<<'],
+      ['+', '-'],
+      ['*', '/', '%']
+    ];
+    // use this list to define order of unary operations for expression parser
+    this.orderOfUnaryOperations = [
+      ['+', '-', '~', 'not ']
+    ];
+  }
+  /**
+   * Creates expression function from this factory's list of operations.
+   * @param {function} expression the leaf expression parser function
+   * @param {boolean}  exclude    binary operations to exclude 
+   */
+  createExpressionFunction (expression, exclude) {
+    exclude = exclude || [];
+    // incrementally wrap expression parser depending on order of operations
+    for (let unaryOperations of this.orderOfUnaryOperations) {
+      expression = this.createTypedUnaryOperation(expression,
+        unaryOperations);
+    }
+    for (let binaryOperations of this.orderOfBinaryOperations) {
+      let operations = [];
+      for (let operation of binaryOperations) {
+        if (exclude.indexOf(operation) !== -1) {
+          operations.push(operation);
+        }
+      }
+      expression = this.createTypedLeftToRightBinaryOperation(expression,
+        operations);
+    }
+    return expression;
+  }
+
   /**
    * Gets the return type of a binary operation.
    * @param {*} op    the name of a binary operator

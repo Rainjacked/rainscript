@@ -1,19 +1,20 @@
-import { LinkedList, Environment } from '../util';
+import { LinkedList } from '../util/LinkedList';
+import { Environment } from '../util/Environment';
+import { Wrapper } from './Wrapper';
 
 export class BaseParser {
   /**
    * Constructs this BaseParser.
    */
-  constructor () {
+  constructor (wrapper) {
+    this.wrapper = wrapper || new Wrapper();
     this.buffer = '';
     this.index = 0;
     this.line = 1;
-    let errors = new LinkedList();
-    let warnings = new LinkedList();
     let environment = new Environment();
     // getters
-    this.errors = errors;
-    this.warning = warnings;
+    this.errors = new LinkedList();
+    this.warning = new LinkedList();
     // adds a new error
     this.error = (message) => {
       this.errors = this.errors.push([this.line, message]);

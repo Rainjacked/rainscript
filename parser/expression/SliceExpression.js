@@ -8,11 +8,7 @@ export class SliceExpressionParser {
       if (result !== undefined && this.character(']')) {
         // for now, only integer or range can be sliced
         if (['range', 'int'].indexOf(result[1]) !== -1) {
-          return {
-            _id: 'op',
-            operator: '[]',
-            operands: [result[0]]
-          };
+          return this.wrapper.slice(result[0]);
         } else {
           this.error('only integer or range can be sliced []');
         }
