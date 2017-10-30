@@ -4,6 +4,11 @@ import { LinkedList } from './LinkedList';
  * A special key-value pair linked list that can lookup values of a certain key.
  */
 export class Environment extends LinkedList {
+  constructor (head, tail) {
+    super(head, tail);
+    let hed = this.head;
+    this.head = (value) => value === undefined ? hed() : hed([hed()[0], value]);
+  }
   /**
    * Creates a new environment with an associated key-value pair.
    * @param {*} key   the searchable identifier that maps to the value
