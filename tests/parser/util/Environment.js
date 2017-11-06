@@ -1,15 +1,10 @@
 import { Environment } from '../../../parser/util/Environment';
-import { LinkedList } from '../../../parser/util/LinkedList';
 import { _ } from 'underscore';
 require('chai').should();
 
 describe('parser', () => {
   describe('util', () => {
     describe('Environment', () => {
-      it('should be an instance of LinkedList', () => {
-        new Environment().should.be.an.instanceof(LinkedList);
-      });
-
       it('should be able to lookup values', () => {
         let list = new Environment();
         list = list.push('one', 1);
@@ -24,7 +19,7 @@ describe('parser', () => {
         list.lookup('five').should.equal(5);
       });
 
-      it('should return null if key not found', () => {
+      it('should return undefined if key not found', () => {
         let list = new Environment();
         list = list.push('one', 1);
         _.isUndefined(list.lookup('two')).should.be.true;
@@ -43,22 +38,6 @@ describe('parser', () => {
         let four = oneAgain.push('four', 4);
         three.lookup('one').should.equal(1);
         four.lookup('one').should.equal(-1, 'four should be shadowed');
-      });
-
-      it('should throw an error when trying to access the head', () => {
-        let list = new Environment().push('one', 1);
-        let headGetter = () => {
-          return list.head;
-        };
-        headGetter.should.throw(Error);
-      });
-
-      it('should throw an error when trying to set the head', () => {
-        let list = new Environment().push('one', 1);
-        let headSetter = () => {
-          list.head = 'not one';
-        };
-        headSetter.should.throw(Error);
       });
 
       it('should throw an error when trying to set the key', () => {
