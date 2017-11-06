@@ -16,6 +16,27 @@ describe('parser', () => {
         assert.strictEqual(list.tail, undefined);
       });
 
+      it('should throw an error when trying to set the head', () => {
+        let list = new LinkedList().push('one', 1);
+        assert.throws(() => {
+          list.head = ['one', 1];
+        }, Error);
+      });
+
+      it('should throw an error when trying to set the tail', () => {
+        let list = new LinkedList().push('one', 1);
+        assert.throws(() => {
+          list.tail = [];
+        }, Error);
+      });
+
+      it('should throw an error when trying to set the size', () => {
+        let list = new LinkedList().push('one', 1);
+        assert.throws(() => {
+          list.size = 2;
+        }, Error);
+      });
+
       it('should have correct links', () => {
         let list1 = new LinkedList();
         let list2 = list1.push('hello');

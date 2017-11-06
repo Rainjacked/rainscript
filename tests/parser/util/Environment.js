@@ -10,6 +10,48 @@ describe('parser', () => {
         assert(list instanceof LinkedList);
       });
 
+      it('should throw an error when trying to access the head', () => {
+        let list = new Environment().push('one', 1);
+        assert.throws(() => {
+          return list.head;
+        }, Error);
+      });
+
+      it('should throw an error when trying to set the head', () => {
+        let list = new Environment().push('one', 1);
+        assert.throws(() => {
+          list.head = ['one', 1];
+        }, Error);
+      });
+
+      it('should throw an error when trying to set the key', () => {
+        let list = new Environment().push('one', 1);
+        assert.throws(() => {
+          list.key = 'one';
+        }, Error);
+      });
+
+      it('should throw an error when trying to set the value', () => {
+        let list = new Environment().push('one', 1);
+        assert.throws(() => {
+          list.value = 1;
+        }, Error);
+      });
+
+      it('should throw an error when trying to set the tail', () => {
+        let list = new Environment().push('one', 1);
+        assert.throws(() => {
+          list.tail = [];
+        }, Error);
+      });
+
+      it('should throw an error when trying to set the size', () => {
+        let list = new Environment().push('one', 1);
+        assert.throws(() => {
+          list.size = 2;
+        }, Error);
+      });
+
       it('should be able to lookup values', () => {
         let list = new Environment();
         list = list.push('one', 1);
