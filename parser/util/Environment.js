@@ -10,6 +10,7 @@ export class Environment extends LinkedList {
    * value cannot be undefined.
    * @param {*} key   the searchable identifier that maps to the value
    * @param {*} value the value associated with the key
+   * @throws {Error} when key or value is undefined
    * @return a new Environment with the appended key-value pair
    */
   push (key, value) {
@@ -24,7 +25,7 @@ export class Environment extends LinkedList {
 
   /**
    * Don't allow accessing the head directly.
-   * @throws {Error}
+   * @throws {Error} upon using this getter method
    */
   get head () {
     throw new Error('it is not advised to access Environment.head directly; ' +
@@ -57,6 +58,7 @@ export class Environment extends LinkedList {
    * Returns the value of the first node that matches the provided key. Returns
    * undefined if key is not found.
    * @param {*} key the searchable identifier that maps to the value
+   * @throws {Error} when key is undefined
    * @return the value of the nearest key, or undefined if not found
    */
   lookup (key) {

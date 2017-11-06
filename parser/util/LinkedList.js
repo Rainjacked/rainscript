@@ -64,6 +64,8 @@ export class LinkedList {
   /**
    * Creates a new LinkedList extended with data as new head.
    * @param {*} data the new head of the extended linked list
+   * @throws {Error} if data is not defined
+   * @return {LinkedList} a new LinkedList with the new data as the first node
    */
   push (data) {
     if (_.isUndefined(data)) {
