@@ -1,4 +1,4 @@
-import { LinkedList } from '../parser/util/LinkedList';
+import { LinkedList } from '../../../parser/util/LinkedList';
 const assert = require('assert');
 
 describe('parser', () => {
@@ -9,11 +9,13 @@ describe('parser', () => {
         assert.ok(list);
         assert.strictEqual(list.size(), 0);
       });
+
       it('should have undefined fields on empty construction', () => {
         let list = new LinkedList();
         assert.strictEqual(list.head(), undefined);
         assert.strictEqual(list.tail(), undefined);
       });
+
       it('should have correct links', () => {
         let list1 = new LinkedList();
         let list2 = list1.push('hello');
@@ -28,6 +30,7 @@ describe('parser', () => {
         assert.strictEqual(list2.size(), 1, 'list 2 size 1');
         assert.strictEqual(list3.size(), 2, 'list 3 size 2');
       });
+
       it('should be persistent', () => {
         let list1 = new LinkedList();
         let list2 = list1.push('common');

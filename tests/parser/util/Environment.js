@@ -1,5 +1,5 @@
-import { Environment } from '../parser/util/Environment';
-import { LinkedList } from '../parser/util/LinkedList';
+import { Environment } from '../../../parser/util/Environment';
+import { LinkedList } from '../../../parser/util/LinkedList';
 const assert = require('assert');
 
 describe('parser', () => {
@@ -9,6 +9,7 @@ describe('parser', () => {
         let list = new Environment();
         assert(list instanceof LinkedList);
       });
+
       it('should be able to lookup values', () => {
         let object = {
           one: 1,
@@ -27,6 +28,7 @@ describe('parser', () => {
         assert.strictEqual(list.lookup('four'), 4, 'one');
         assert.strictEqual(list.lookup('five'), 5, 'one');
       });
+
       it('should shadow lookups', () => {
         let zero = new Environment();
         let one = zero.push('one', 1);
