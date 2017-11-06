@@ -11,22 +11,26 @@ describe('parser', () => {
       });
 
       it('should be able to lookup values', () => {
-        let object = {
-          one: 1,
-          two: 2,
-          three: 3,
-          four: 4,
-          five: 5
-        };
         let list = new Environment();
-        for (let key in object) {
-          list = list.push(key, object[key]);
-        }
-        assert.strictEqual(list.lookup('one'), 1, 'one');
-        assert.strictEqual(list.lookup('two'), 2, 'one');
-        assert.strictEqual(list.lookup('three'), 3, 'one');
-        assert.strictEqual(list.lookup('four'), 4, 'one');
-        assert.strictEqual(list.lookup('five'), 5, 'one');
+        list = list.push('one', 1);
+        list = list.push('two', 2);
+        list = list.push('three', 3);
+        list = list.push('four', 4);
+        list = list.push('five', 5);
+        assert.strictEqual(list.lookup('one'), 1);
+        assert.strictEqual(list.lookup('two'), 2);
+        assert.strictEqual(list.lookup('three'), 3);
+        assert.strictEqual(list.lookup('four'), 4);
+        assert.strictEqual(list.lookup('five'), 5);
+      });
+
+      it('should return null if key not found', () => {
+        let list = new Environment();
+        list = list.push('one', 1);
+        assert.strictEqual(list.lookup('two'), undefined, 'key not found ' +
+          'should return undefined');
+        list = list.push('two', 2);
+        assert.strictEqual(list.lookup('two'), 2);
       });
 
       it('should shadow lookups', () => {
@@ -40,10 +44,6 @@ describe('parser', () => {
         assert.strictEqual(three.lookup('one'), 1, 'three should be 1');
         assert.strictEqual(four.lookup('one'), -1,
           'four should be shadowed with -1');
-        one.head(9);
-        assert.strictEqual(four.lookup('one'), -1, 'four should still be -1');
-        assert.strictEqual(three.lookup('one'), 9,
-          'three should find new value of 9');
       });
     });
   });
