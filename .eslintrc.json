@@ -6,9 +6,13 @@
     },
     "extends": "semistandard",
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "plugins": [
+            "chai-friendly"
+        ]
     },
     "rules": {
+        "no-unused-expressions": 0,
         "indent": [
             "error",
             2
