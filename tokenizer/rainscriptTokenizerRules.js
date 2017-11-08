@@ -9,5 +9,6 @@
  *   }[]
  */
 export const rainscriptTokenizerRules = [
+  { pattern: /\[\[[^\]]*\]\]/, type: 'EVENT' },
   { pattern: /\s+/, type: 'WHITESPACE' }
 ];
