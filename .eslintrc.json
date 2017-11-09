@@ -8,14 +8,22 @@
     "parserOptions": {
         "sourceType": "module"
     },
+    "plugins": [
+        "chai-friendly"
+    ],
     "rules": {
+        "no-unused-expressions": [
+            "off"
+        ],
+        "chai-friendly/no-unused-expressions": [
+            "error"
+        ],
         "indent": [
             "error",
             2
         ],
         "linebreak-style": [
-            "error",
-            "unix"
+            "off"
         ],
         "quotes": [
             "error",
