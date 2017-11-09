@@ -1,12 +1,10 @@
 /**
  * The tokenizer rules, ordered by priority. All tokenizer rules go here.
  *
- * tokenizerRules:
- *   {
- *     pattern: RegExp,
- *     type: any,
- *     start: Array<int>?
- *   }[]
+ * @type {{pattern: RegExp, type: any}[]}
+ * @property {RegExp} pattern a regular expression to be matched by a rule
+ * @property {*}      type    the type of the next token that will be returned
+ *                            when the pattern matches correctly
  */
 export const rainscriptTokenizerRules = [
   // quoted string literals
