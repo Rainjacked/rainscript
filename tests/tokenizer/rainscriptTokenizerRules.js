@@ -3,6 +3,65 @@ require('chai').should();
 
 describe('tokenizer', () => {
   describe('rainscriptTokenizerRules', () => {
+    describe('STR_1', () => {
+      it('should tokenize STR_1', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('\'hello world\'');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'STR_1',
+          lexeme: '\'hello world\''
+        });
+      });
+
+      it('should escape single quotes in STR_1', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('\'hello \\\' world\'');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'STR_1',
+          lexeme: '\'hello \\\' world\''
+        });
+      });
+
+      it('should capture inline COMMENT inside STR_1', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('\'this is \n // not a comment\'');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'STR_1',
+          lexeme: '\'this is \n // not a comment\''
+        });
+      });
+
+      it('should capture block COMMENT inside STR_1', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('\'this is \n /* not a comment*/ \'');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'STR_1',
+          lexeme: '\'this is \n /* not a comment*/ \''
+        });
+      });
+
+      it('should not capture unended STR_1', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('\'undended string');
+        tokens.should.be.an('array').that.is.not.empty;
+        tokens[0].should.not.include({
+          type: 'STR_1'
+        });
+      });
+
+      it('should not capture unended STR_1, with escaped ending quote', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('\'undended escaped end-quote \\\'');
+        tokens.should.be.an('array').that.is.not.empty;
+        tokens[0].should.not.include({
+          type: 'STR_1'
+        });
+      });
+    });
     describe('COMMENT', () => {
       it('should tokenize inline COMMENT', () => {
         let tokenizer = rainscriptTokenizer();

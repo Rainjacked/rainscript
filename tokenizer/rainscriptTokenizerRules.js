@@ -9,6 +9,8 @@
  *   }[]
  */
 export const rainscriptTokenizerRules = [
+  // parse quoted string literals
+  { pattern: /'(\\.|[^\\'])*'/, type: 'STR_1' },
   // parse c-style inline and block comments
   { pattern: /\/\*[^*]*\*+(?:[^/*][^*]*\*+)*\/|\/\/[^\n]*/, type: 'COMMENT' },
   { pattern: /\[\[[^\]]*\]\]/, type: 'EVENT' },
