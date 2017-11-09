@@ -191,6 +191,44 @@ describe('tokenizer', () => {
           lexeme: '[[ I AM AN EVENT ]]'
         });
       });
+
+      it('should not allow opening square brackets in EVENT', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('[[ not allowed [ ]]');
+        tokens.should.be.an('array').that.is.not.empty;
+        tokens[0].should.not.include({
+          type: 'EVENT'
+        });
+      });
+
+      it('should not allow single closing square brackets in EVENT', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('[[ not allowed ] ]]');
+        tokens.should.be.an('array').that.is.not.empty;
+        tokens[0].should.not.include({
+          type: 'EVENT'
+        });
+      });
+
+      it('should tokenize EVENT before inline COMMENT', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('[[ // not actually COMMENT\n ]]');
+        tokens.should.be.an('array').that.is.not.empty;
+        tokens[0].should.include({
+          type: 'EVENT',
+          lexeme: '[[ // not actually COMMENT\n ]]'
+        });
+      });
+
+      it('should tokenize EVENT before block COMMENT', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('[[ /* not actually COMMENT */ ]]');
+        tokens.should.be.an('array').that.is.not.empty;
+        tokens[0].should.include({
+          type: 'EVENT',
+          lexeme: '[[ /* not actually COMMENT */ ]]'
+        });
+      });
     });
 
     describe('VAR_SUFFIX', () => {
