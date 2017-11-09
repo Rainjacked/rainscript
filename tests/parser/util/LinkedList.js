@@ -1,4 +1,4 @@
-import { LinkedList } from '../../../parser/util/LinkedList';
+import { LinkedList } from '../../../lib/parser/util/LinkedList';
 import { _ } from 'underscore';
 require('chai').should();
 
