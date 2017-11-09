@@ -1,4 +1,4 @@
-import { rainscriptTokenizer } from '../../tokenizer/rainscriptTokenizer';
+import { rainscriptTokenizer } from '../../lib/tokenizer/rainscriptTokenizer';
 require('chai').should();
 
 describe('tokenizer', () => {
