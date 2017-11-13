@@ -1,4 +1,4 @@
-import { Environment } from '../../../parser/util/Environment';
+import { Environment } from '../../../lib/parser/util/Environment';
 import { _ } from 'underscore';
 require('chai').should();
 
