@@ -145,6 +145,28 @@ describe('tokenizer', () => {
       });
     });
 
+    describe('INT_BIN', () => {
+      it('should tokenize INT_BIN (lowercase)', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('0b010101110101110');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'INT_BIN',
+          lexeme: '0b010101110101110'
+        });
+      });
+
+      it('should tokenize INT_BIN (uppercase)', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('0B010101110101110');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'INT_BIN',
+          lexeme: '0B010101110101110'
+        });
+      });
+    });
+
     describe('FLOAT', () => {
       function recognize (input, message) {
         let tokenizer = rainscriptTokenizer();
