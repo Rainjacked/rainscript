@@ -212,11 +212,11 @@ describe('tokenizer', () => {
 
       it('should tokenize EVENT before inline COMMENT', () => {
         let tokenizer = rainscriptTokenizer();
-        let tokens = tokenizer.tokenize('[[ // not actually COMMENT\n ]]');
+        let tokens = tokenizer.tokenize('[[ // not actually COMMENT ]]');
         tokens.should.be.an('array').that.is.not.empty;
         tokens[0].should.include({
           type: 'EVENT',
-          lexeme: '[[ // not actually COMMENT\n ]]'
+          lexeme: '[[ // not actually COMMENT ]]'
         });
       });
 
@@ -227,6 +227,15 @@ describe('tokenizer', () => {
         tokens[0].should.include({
           type: 'EVENT',
           lexeme: '[[ /* not actually COMMENT */ ]]'
+        });
+      });
+
+      it('should not allow newline in EVENT', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('[[ event \n name ]]');
+        tokens.should.be.an('array').that.is.not.empty;
+        tokens[0].should.not.include({
+          type: 'EVENT'
         });
       });
     });
