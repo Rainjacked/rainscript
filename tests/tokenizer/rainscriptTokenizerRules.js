@@ -167,6 +167,28 @@ describe('tokenizer', () => {
       });
     });
 
+    describe('INT_HEX', () => {
+      it('should tokenize INT_HEX (lowercase)', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('0x0123456789abcdef');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'INT_HEX',
+          lexeme: '0x0123456789abcdef'
+        });
+      });
+
+      it('should tokenize INT_HEX (uppercase)', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('0X0123456789ABCDEF');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'INT_HEX',
+          lexeme: '0X0123456789ABCDEF'
+        });
+      });
+    });
+
     describe('FLOAT', () => {
       function recognize (input, message) {
         let tokenizer = rainscriptTokenizer();
