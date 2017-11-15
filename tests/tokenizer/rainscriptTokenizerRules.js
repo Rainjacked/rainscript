@@ -123,6 +123,28 @@ describe('tokenizer', () => {
       });
     });
 
+    describe('INT_OCT', () => {
+      it('should tokenize INT_OCT', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('01234567');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'INT_OCT',
+          lexeme: '01234567'
+        });
+      });
+
+      it('should tokenize 0 as INT_OCT', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('0');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'INT_OCT',
+          lexeme: '0'
+        });
+      });
+    });
+
     describe('FLOAT', () => {
       function recognize (input, message) {
         let tokenizer = rainscriptTokenizer();
