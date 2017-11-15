@@ -1,5 +1,5 @@
 import { LinkedList } from '../../../lib/parser/util/LinkedList';
-import { _ } from 'underscore';
+import { _ } from 'lodash';
 require('chai').should();
 
 describe('parser', () => {

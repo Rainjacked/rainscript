@@ -51,7 +51,6 @@
     "babel-register": "^6.26.0",
     "ccount": "^1.0.2",
     "lex": "^1.7.9",
-    "lodash": "^4.17.4",
-    "underscore": "^1.8.3"
+    "lodash": "^4.17.4"
   }
 }
