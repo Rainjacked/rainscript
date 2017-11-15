@@ -145,6 +145,18 @@ describe('tokenizer', () => {
       });
     });
 
+    describe('INT_DEC', () => {
+      it('should tokenize INT_DEC', () => {
+        let tokenizer = rainscriptTokenizer();
+        let tokens = tokenizer.tokenize('1234567890');
+        tokens.should.be.an('array').with.lengthOf(1);
+        tokens[0].should.include({
+          type: 'INT_DEC',
+          lexeme: '1234567890'
+        });
+      });
+    });
+
     describe('INT_BIN', () => {
       it('should tokenize INT_BIN (lowercase)', () => {
         let tokenizer = rainscriptTokenizer();
