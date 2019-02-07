@@ -1,5 +1,5 @@
 import { Environment } from '../../../lib/parser/util/Environment';
-import { _ } from 'underscore';
+import { _ } from 'lodash';
 require('chai').should();
 
 describe('parser', () => {

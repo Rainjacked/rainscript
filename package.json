@@ -4,7 +4,7 @@
   "description": "A scripting language designed for game story writers.",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js lib/** tests/** && mocha --compilers js:babel-core/register tests/**/*.js",
+    "test": "eslint index.js lib/** tests/** && mocha --compilers js:babel-core/register tests/**/*",
     "fix": "eslint index.js lib/** tests/** --fix"
   },
   "repository": {
@@ -33,23 +33,24 @@
     ]
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "chai": "^4.1.2",
-    "eslint": "^4.10.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "eslint": "^4.19.1",
     "eslint-config-semistandard": "^11.0.0",
     "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-chai-friendly": "^0.4.0",
-    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.3.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^3.5.3"
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-standard": "^3.1.0",
+    "mocha": "^5.2.0"
   },
   "dependencies": {
     "babel-register": "^6.26.0",
-    "lodash": "^4.17.4",
-    "underscore": "^1.8.3"
+    "ccount": "^1.0.3",
+    "lex": "^1.7.9",
+    "lodash": "^4.17.11"
   }
 }
